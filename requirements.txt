@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+pydantic
+langchain
+transformers
+torch
+torchvision
+diffusers
+opencv-python-headless
+# 기타 필요한 라이브러리 추가
