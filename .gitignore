@@ -5,3 +5,5 @@ myenv/
 myenv/
 .env
 .DS_Store
+myenv/
+node_modules/
