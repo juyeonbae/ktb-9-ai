@@ -6,3 +6,5 @@
 checkpoints
 temp
 .env
+myenv/
+node_modules/
