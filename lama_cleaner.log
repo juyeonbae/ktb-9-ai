@@ -1,0 +1,26 @@
+2024-12-10 00:22:49,347 - utils.inference - ERROR - 인페인팅 실패
+Traceback (most recent call last):
+  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 158, in sd_inpaint
+    pipe = StableDiffusionInpaintPipeline.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/diffusers/pipelines/pipeline_utils.py", line 725, in from_pretrained
+    cached_folder = cls.download(
+                    ^^^^^^^^^^^^^
+  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/diffusers/pipelines/pipeline_utils.py", line 1390, in download
+    ignore_patterns = _get_ignore_patterns(
+                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/diffusers/pipelines/pipeline_loading_utils.py", line 906, in _get_ignore_patterns
+    raise EnvironmentError(
+OSError: Could not find the necessary `safetensors` weights in {'vae/diffusion_pytorch_model.bin', 'unet/diffusion_pytorch_model.bin', 'text_encoder/pytorch_model.bin', 'safety_checker/pytorch_model.bin'} (variant=None)
+2024-12-10 13:33:10,305 - utils.inference - ERROR - 인페인팅 실패
+Traceback (most recent call last):
+  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 158, in sd_inpaint
+    mask = mask.filter(ImageFilter.GaussianBlur(radius=2))  # 경계 부드럽게
+                      ^^^^^^^^^^^
+NameError: name 'ImageFilter' is not defined

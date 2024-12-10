@@ -1,0 +1,10 @@
+**/.DS_Store
+**/.idea
+**/__pycache__
+**/.ipynb_checkpoints
+.streamlit/credentials.yaml
+checkpoints
+temp
+.env
+myenv/
+node_modules/
