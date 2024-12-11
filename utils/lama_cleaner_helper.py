@@ -97,11 +97,13 @@ def download_model(url: str, config: ModelConfig) -> Path:
    except ValidationError as e:
        raise ModelError(str(e)) from e
 
-def load_jit_model(url_or_path: Union[str, Path], model_md5: Optional[str] = None) -> torch.jit.ScriptModule:
-   device = get_device()
-   config = ModelConfig(url=str(url_or_path), md5=model_md5, device=device)
-   
+def load_jit_model(url_or_path: Union[str, Path], 
+                   device: str = get_device(),
+                   model_md5: Optional[str] = None
+                   ) -> torch.jit.ScriptModule:
    try:
+       config = ModelConfig(url=str(url_or_path), md5=model_md5, device=device)
+
        if Path(url_or_path).exists():
            model_path = Path(url_or_path)
        else:

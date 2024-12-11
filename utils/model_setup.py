@@ -39,6 +39,7 @@ def get_sd_inpaint():
 def get_lama_cleaner():
     """LaMa Cleaner 모델 로드 및 캐싱"""
     print("lama cleaner setup!")
+    device = get_device()
     
     LAMA_MODEL_URL = os.environ.get(
         "LAMA_MODEL_URL",
@@ -46,7 +47,12 @@ def get_lama_cleaner():
     )
     LAMA_MODEL_MD5 = os.environ.get("LAMA_MODEL_MD5", "e3aa4aaa15225a33ec84f9f4bc47e500")
 
-    lama_model = load_jit_model(LAMA_MODEL_URL, device, LAMA_MODEL_MD5).eval()
+    lama_model = load_jit_model(
+        url_or_path=LAMA_MODEL_URL,
+        device=device, 
+        model_md5=LAMA_MODEL_MD5
+        ).eval()
+    
     return lama_model
 
 @lru_cache(maxsize=None)
