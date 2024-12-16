@@ -158,12 +158,3 @@ def process_image(
    except Exception as e:
        logger.error(f"Image processing failed: {str(e)}")
        raise ModelError(f"Failed to process image: {str(e)}")
-
-if __name__ == "__main__":
-   try:
-       test_url = "https://example.com/model.pth"
-       test_config = ModelConfig(url=test_url)
-       model = load_jit_model(test_url)
-       logger.info("Test completed successfully")
-   except Exception as e:
-       logger.error(f"Test failed: {str(e)}")

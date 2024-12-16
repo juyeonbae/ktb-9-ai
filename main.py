@@ -1,143 +1,115 @@
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
-import base64
-import io, traceback
+from typing import Optional
+import io
+import traceback
 from PIL import Image
 import numpy as np
-from utils.inference import sd_inpaint 
-from utils.image_quality import ImageQualityManager 
+import logging
+
+from utils.image_processing import ImageProcessor, ProcessingConfig
+from utils.inference import ImageEditPipeline
+
+
+REMOVE_ACTION = "remove"
+EDIT_ACTION = "edit"
 
 app = FastAPI(title="Image Editor API")
 
 app.add_middleware(
-   CORSMiddleware,
-   allow_origins=["http://localhost:3000"],
-   allow_credentials=True,
-   allow_methods=["*"], 
-   allow_headers=["*"],
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
+logger = logging.getLogger(__name__)
+
+# 이미지 프로세서 인스턴스
+image_processor = ImageProcessor(ProcessingConfig())
+pipeline = ImageEditPipeline()
+
 
 @app.post("/api/edit-image")
 async def edit_image(
     image: UploadFile = File(...),
-    prompt: str = Form(...),
-    mask_data: str = Form(...)
+    mask: UploadFile = File(...),
+    type: str = Form(...),
+    prompt: Optional[str] = Form(None)
 ):
+
     try:
-        print("=== 요청 시작 ===")
-        print(f"받은 프롬프트: {prompt}")
-        print(f"파일 이름: {image.filename}")
-        
-        quality_manager = ImageQualityManager()  # 인스턴스 생성
+        logger.info("Received files:")
+        logger.info(f"Image: {image.filename}, Content-Type: {image.content_type}")
+        logger.info(f"Mask: {mask.filename}, Content-Type: {mask.content_type}")
+        logger.info(f"Action type: {type}")  # type 값 확인용 로그
 
-        # 1. 이미지 처리
-        print("이미지 처리 시작")
+        # 1. 이미지 로드
         image_content = await image.read()
-        img = Image.open(io.BytesIO(image_content))
-        
-        original_size = img.size  # 원본 크기 저장
-        print(f"원본 이미지 크기: {original_size}")
-        
-        # RGB 모드 확인 
-        if img.mode != 'RGB':
-            img = img.convert('RGB')
-        
-        # 초기 품질 처리
-        img = quality_manager.process_image(img)
-        print(f"처리된 이미지 크기: {img.size}")
-
-        # 2. 마스크 처리
-        print("마스크 처리 시작")
-        try:
-            mask_bytes = base64.b64decode(mask_data)
-            mask = Image.open(io.BytesIO(mask_bytes))
-            mask = quality_manager.process_image(mask, target_size=img.size)
-
-            
-            # 마스크를 이미지 크기에 맞게 조정
-            if mask.size != img.size:
-                mask = mask.resize(img.size, Image.Resampling.NEAREST)
+        logger.debug(f"Image content length: {len(image_content)}")
                 
-            # 마스크를 그레이스케일로 변환
-            if mask.mode != 'L':
-                mask = mask.convert('L')
-            
-            # 마스크 이진화 처리 개선
-            mask_array = np.array(mask)
-            threshold = 128
-            mask_binary = Image.fromarray(
-                ((mask_array > threshold).astype(np.uint8) * 255),
-                mode='L'
-            )
-            
+        try:
+            img = Image.open(io.BytesIO(image_content))
         except Exception as e:
-            raise HTTPException(
-                status_code=400,
-                detail=f"마스크 데이터 처리 실패: {str(e)}"
+            logger.error(f"Image open error: {str(e)}")
+            raise HTTPException(status_code=400, detail="Invalid image format")
+
+        # 2. 마스크 로드
+        mask_content = await mask.read()
+        try:
+            mask_img = Image.open(io.BytesIO(mask_content))
+            if mask_img.mode != 'L':
+                mask_img = mask_img.convert('L')
+        except Exception as e:
+            logger.error(f"Mask loading error: {str(e)}")
+            raise ValueError(f"마스크 로드 실패: {str(e)}")
+
+        # 3. 작업 타입별 처리
+        if type == REMOVE_ACTION:
+            edited = pipeline.remove_object(
+                image=img,
+                mask=mask_img
             )
+        elif type == EDIT_ACTION:
+            if not prompt:
+                raise ValueError("Edit 작업에는 프롬프트가 필요합니다")
+            edited = pipeline.edit_object(
+                image=img,
+                mask=mask_img,
+                prompt=prompt
+            )
+        else:
+            raise ValueError(f"지원하지 않는 작업 타입: {type}")
 
-        # 3. SD Inpainting으로 이미지 편집
-        print("이미지 편집 시작")
-        edited_image = sd_inpaint(
-            image=img,
-            mask=mask_binary,
-            inpaint_prompt=prompt
-        )
-        
-        # 최종 품질 향상
-        edited_image = quality_manager.process_image(edited_image)
-        
-        if edited_image is None:
-            raise HTTPException(status_code=500, detail="이미지 편집 실패")
-
-        # 4. 결과 이미지 저장 전 원본 크기로 복원
-        print(f"편집된 이미지 크기: {edited_image.size}")
-        if edited_image.size != original_size:
-            print(f"이미지 크기 복원: {edited_image.size} -> {original_size}")
-            edited_image = edited_image.resize(original_size, Image.Resampling.LANCZOS)
-
-
-        # 4. 결과 이미지 저장 및 반환
-        print("결과 이미지 반환 준비")
+        # 4. 결과 반환
         output = io.BytesIO()
-        
-        # 고품질 PNG 저장 설정
-        edited_image.save(
-            output, 
-            format='PNG',
-            quality=100,
-            optimize=False,
-            subsampling=0
-        )
+        edited.save(output, format='PNG', quality=100, optimize=False)
         output.seek(0)
-        
-        print("=== 처리 완료 ===")
-        
-        # 캐시 제어 헤더 추가
-        headers = {
-            "Content-Disposition": "attachment; filename=edited_image.png",
-            "Cache-Control": "no-cache, no-store, must-revalidate",
-            "Pragma": "no-cache",
-            "Expires": "0"
-        }
-        
+
         return StreamingResponse(
-            output, 
+            output,
             media_type="image/png",
-            headers=headers
+            headers={
+                "Content-Disposition": "attachment; filename=edited_image.png",
+                "Cache-Control": "no-cache, no-store, must-revalidate",
+                "Pragma": "no-cache",
+                "Expires": "0"
+            }
         )
-       
+
+    except ValueError as e:
+        logger.error(f"Error processing image: {str(e)}")
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        print(f"=== 에러 발생 ===")
-        print(f"에러 타입: {type(e)}")
-        print(f"에러 메시지: {str(e)}")
-        print(f"상세 에러: {traceback.format_exc()}")
+        print(f"에러 발생: {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "message": "Server is running"}
+
 
 if __name__ == "__main__":
    import uvicorn

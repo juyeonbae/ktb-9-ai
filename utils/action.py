@@ -17,7 +17,8 @@ class ImageStateManager:
             "coord": False,
             "freedraw": False,
             "canvas": None,
-            "text": ""
+            "text": "",
+            "action_type": None  # 현재 선택된 작업 타입 저장
         }
 
     def backward_inference_image(self) -> Dict[str, Any]:

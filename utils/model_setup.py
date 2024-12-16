@@ -54,20 +54,3 @@ def get_lama_cleaner():
         ).eval()
     
     return lama_model
-
-@lru_cache(maxsize=None)
-def get_instruct_pix2pix():
-    """Instruct Pix2Pix 모델 로드 및 캐싱"""
-    print("Instruct Pix2Pix setup!")
-        
-    pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
-        "timbrooks/instruct-pix2pix",
-        torch_dtype=torch.float16 if device == "cuda" else torch.float32,
-        safety_checker=None
-    ).to(device)
-    
-    # 스케줄러 설정
-    pipe.scheduler = EulerAncestralDiscreteScheduler.from_config(
-        pipe.scheduler.config,
-        num_train_timesteps=500)
-    return pipe

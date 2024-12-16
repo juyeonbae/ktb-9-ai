@@ -1,36 +1,47 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 const ImageMaskEditor = () => {
+  // State 관리
+  const [image, setImage] = useState(null);
+  const [prompt, setPrompt] = useState('');
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [selectedTool, setSelectedTool] = useState('brush');
+  const [brushSize, setBrushSize] = useState(20);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [imageHistory, setImageHistory] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [scale, setScale] = useState(1);
+
+  // Canvas Refs
   const canvasRef = useRef(null);
   const maskCanvasRef = useRef(null);
   const displayCanvasRef = useRef(null);
-  const [isDrawing, setIsDrawing] = useState(false);
-  const [brushSize, setBrushSize] = useState(20);
-  const [image, setImage] = useState(null);
-  const [prompt, setPrompt] = useState('');
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [scale, setScale] = useState(1);
-  const [imageHistory, setImageHistory] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  // 도형 도구 관련 상태 추가
-  const [selectedTool, setSelectedTool] = useState('brush'); // 'brush', 'rectangle', 'circle'
-  const [startPos, setStartPos] = useState({ x: 0, y: 0 });
-  const [tempCanvas, setTempCanvas] = useState(null);
 
+  // State 관리 부분에 아래 두 state 추가
+const [startPos, setStartPos] = useState({ x: 0, y: 0 });
+const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
+
+  // 이미지 로드 및 초기 설정
   useEffect(() => {
     if (image) {
       const img = new Image();
       img.onload = () => {
         const canvas = canvasRef.current;
         const maskCanvas = maskCanvasRef.current;
+        if (!maskCanvas) {
+          console.error("Mask canvas is not initialized.");
+          return;
+        }
         const displayCanvas = displayCanvasRef.current;
         
+        // 캔버스 크기 설정
         canvas.width = img.width;
         canvas.height = img.height;
         maskCanvas.width = img.width;
         maskCanvas.height = img.height;
         
+        // 화면에 맞게 스케일 조정
         const maxWidth = window.innerWidth * 0.8;
         const maxHeight = window.innerHeight * 0.8;
         const scale = Math.min(maxWidth / img.width, maxHeight / img.height);
@@ -39,6 +50,7 @@ const ImageMaskEditor = () => {
         displayCanvas.width = img.width * scale;
         displayCanvas.height = img.height * scale;
         
+        // 초기 이미지 그리기
         const ctx = canvas.getContext('2d');
         const displayCtx = displayCanvas.getContext('2d');
         const maskCtx = maskCanvas.getContext('2d');
@@ -46,10 +58,12 @@ const ImageMaskEditor = () => {
         ctx.drawImage(img, 0, 0);
         displayCtx.drawImage(img, 0, 0, displayCanvas.width, displayCanvas.height);
         
+        // 마스크 초기화
         maskCtx.fillStyle = 'black';
         maskCtx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
 
-        if (!imageHistory || imageHistory.length === 0) {
+        // 히스토리 초기화
+        if (!imageHistory.length) {
           setImageHistory([img.src]);
           setCurrentIndex(0);
         }
@@ -58,6 +72,7 @@ const ImageMaskEditor = () => {
     }
   }, [image, imageHistory]);
 
+  // 마스크 그리기 함수들
   const getScaledCoordinates = (e) => {
     const displayCanvas = displayCanvasRef.current;
     const rect = displayCanvas.getBoundingClientRect();
@@ -85,233 +100,169 @@ const ImageMaskEditor = () => {
     displayCtx.fill();
   };
 
-  const drawShape = (currentPos) => {
+  const drawRectangle = (startPos, currentPos) => {
     const displayCanvas = displayCanvasRef.current;
     const displayCtx = displayCanvas.getContext('2d');
   
-    // 원본 이미지 다시 그리기
+    // 원본 이미지 복원
     displayCtx.drawImage(canvasRef.current, 0, 0, displayCanvas.width, displayCanvas.height);
   
-    // 좌표 보정
-    let x = Math.min(startPos.x, currentPos.x);
-    let y = Math.min(startPos.y, currentPos.y);
-    let width = Math.abs(currentPos.x - startPos.x);
-    let height = Math.abs(currentPos.y - startPos.y);
-  
+    // 사각형 그리기
     displayCtx.fillStyle = 'rgba(255, 0, 0, 0.3)';
-    if (selectedTool === 'rectangle') {
-      displayCtx.fillRect(
-        x * scale,
-        y * scale,
-        width * scale,
-        height * scale
-      );
-    } else if (selectedTool === 'circle') {
-      const radius = Math.sqrt(width * width + height * height);
-      displayCtx.beginPath();
-      displayCtx.arc(startPos.x * scale, startPos.y * scale, radius * scale, 0, Math.PI * 2);
-      displayCtx.fill();
-    }
-  };
-
-  const finalizeShape = (currentPos) => {
-    const maskCanvas = maskCanvasRef.current;
-    const maskCtx = maskCanvas.getContext('2d');
-  
-    // 전체를 black으로 초기화 (보존할 영역)
-    maskCtx.fillStyle = 'black';
-    maskCtx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
+    const x = Math.min(startPos.x, currentPos.x);
+    const y = Math.min(startPos.y, currentPos.y);
+    const width = Math.abs(currentPos.x - startPos.x);
+    const height = Math.abs(currentPos.y - startPos.y);
     
-    // 좌표 보정
-    let x = Math.min(startPos.x, currentPos.x);
-    let y = Math.min(startPos.y, currentPos.y);
-    let width = Math.abs(currentPos.x - startPos.x);
-    let height = Math.abs(currentPos.y - startPos.y);
-  
-    // 선택 영역을 white로 설정 (변경할 영역)
-    maskCtx.fillStyle = 'white';
-    if (selectedTool === 'rectangle') {
-      maskCtx.fillRect(x, y, width, height);
-    } else if (selectedTool === 'circle') {
-      const radius = Math.sqrt(width * width + height * height);
-      maskCtx.beginPath();
-      maskCtx.arc(startPos.x, startPos.y, radius, 0, Math.PI * 2);
-      maskCtx.fill();
-    }
+    displayCtx.fillRect(
+      x * scale,
+      y * scale,
+      width * scale,
+      height * scale
+    );
   };
 
+  // 마스크 그리기 이벤트 핸들러
   const startDrawing = (e) => {
     setIsDrawing(true);
     const pos = getScaledCoordinates(e);
-    setStartPos(pos);
-    
     if (selectedTool === 'brush') {
       drawBrush(pos.x, pos.y);
+    } else {
+      setStartPos(pos);
     }
   };
 
   const draw = (e) => {
     if (!isDrawing) return;
-
-    const currentPos = getScaledCoordinates(e);
+    
+    const pos = getScaledCoordinates(e);
+    setCurrentPos(pos);  // currentPos 업데이트
     
     if (selectedTool === 'brush') {
-      drawBrush(currentPos.x, currentPos.y);
+      drawBrush(pos.x, pos.y);
     } else {
-      drawShape(currentPos);
+      drawRectangle(startPos, pos);
     }
   };
-
-  const stopDrawing = (e) => {
-    if (isDrawing && selectedTool !== 'brush') {
-      const currentPos = getScaledCoordinates(e);
-      finalizeShape(currentPos);
+  const stopDrawing = () => {
+    if (isDrawing && selectedTool === 'rectangle') {
+      // 마스크에 최종 사각형 그리기
+      const maskCanvas = maskCanvasRef.current;
+      const maskCtx = maskCanvas.getContext('2d');
+      maskCtx.fillStyle = 'white';
+      const width = Math.abs(currentPos.x - startPos.x);
+      const height = Math.abs(currentPos.y - startPos.y);
+      maskCtx.fillRect(
+        Math.min(startPos.x, currentPos.x),
+        Math.min(startPos.y, currentPos.y),
+        width,
+        height
+      );
     }
     setIsDrawing(false);
   };
 
-  const handleSubmit = async () => {
-    if (!image || !prompt.trim()) {
-      setError('Please select an image and enter a prompt');
+  const handleEditImage = async (action) => {
+    if (!image) {
+      setError('Please select an image');
       return;
     }
-
+  
+    if (action === 'edit' && (!prompt || prompt.trim().length === 0)) {
+      setError('Prompt cannot be empty for editing');
+      return;
+    }
+  
     try {
       setIsLoading(true);
       setError(null);
-
-      const formData = new FormData();
-      formData.append('image', image); 
-
-      // 마스크 데이터 품질 유지
-      const maskCanvas = maskCanvasRef.current;
-      const maskBlob = await new Promise(resolve => {
-        maskCanvas.toBlob(resolve, 'image/png', 1.0); // PNG 형식으로 저장하여 품질 손실 방지
-      });
-      // base64로 인코딩
-      const reader = new FileReader();
-      const maskData = await new Promise((resolve) => {
-        reader.onloadend = () => {
-          const base64data = reader.result;
-          resolve(base64data.split(',')[1]); // base64 데이터 부분만 추출
-        };
-        reader.readAsDataURL(maskBlob);
-      });
+  
+      // 먼저 마스크 blob 생성
+      const maskBlob = await new Promise((resolve, reject) => 
+        maskCanvasRef.current.toBlob(blob => {
+          if (blob) resolve(blob);
+          else reject(new Error("Failed to create mask blob"));
+        }, 'image/png')
+      );
       
-      formData.append('mask_data', maskData);
-      formData.append('prompt', prompt.trim());
-
+      if (!maskBlob || maskBlob.size === 0) {
+        throw new Error("Mask blob is empty or not created properly.");
+      }
+  
+      const formData = new FormData();
+      formData.append('image', image);
+      formData.append('type', action);
+      formData.append('mask', maskBlob);
+      
+      if (action === 'edit') {
+        formData.append('prompt', prompt.trim());
+      }
+  
+      // 디버깅을 위한 로그
+      console.log('Image type:', typeof image, image instanceof File);
+      console.log('Image object:', image);
+      console.log('Mask blob type:', typeof maskBlob);
+      console.log("Form Data:");
+      formData.forEach((value, key) => console.log(`${key}:`, value));
+  
       const response = await fetch('http://localhost:8000/api/edit-image', {
         method: 'POST',
         body: formData
       });
-
+  
       if (!response.ok) {
-        throw new Error(await response.text());
+        const errorData = await response.text();
+        throw new Error(`Failed to edit image: ${errorData}`);
       }
-
-      const blob = await response.blob();
-      const editedImageUrl = URL.createObjectURL(blob);
-      
-      // 히스토리에 새로운 이미지 추가 (현재 인덱스 이후의 기록은 삭제)
-      setImageHistory(prev => [...prev.slice(0, currentIndex + 1), editedImageUrl]);
+  
+      const result = await response.blob();
+      const imageUrl = URL.createObjectURL(result);
+      setImageHistory(prev => [...prev.slice(0, currentIndex + 1), imageUrl]);
       setCurrentIndex(prev => prev + 1);
-      setImage(blob);
+      setImage(result);
+  
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error in handleEditImage:', error);
       setError(error.message);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handlePrevious = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(prev => prev - 1);
-      const img = new Image();
-      img.onload = async () => {  // async 추가
-        const displayCanvas = displayCanvasRef.current;
-        const displayCtx = displayCanvas.getContext('2d');
-        displayCtx.drawImage(img, 0, 0, displayCanvas.width, displayCanvas.height);
-  
-        const blob = await fetch(img.src).then(r => r.blob());
-        setImage(blob);
-      };
-      img.src = imageHistory[currentIndex - 1];
-    }
-  };
-  
-  const handleNext = () => {
-    if (currentIndex < imageHistory.length - 1) {
-      setCurrentIndex(prev => prev + 1);
-      const img = new Image();
-      img.onload = async () => {  // async 추가
-        const displayCanvas = displayCanvasRef.current;
-        const displayCtx = displayCanvas.getContext('2d');
-        displayCtx.drawImage(img, 0, 0, displayCanvas.width, displayCanvas.height);
-  
-        const blob = await fetch(img.src).then(r => r.blob());
-        setImage(blob);
-      };
-      img.src = imageHistory[currentIndex + 1];
-    }
-  };
-
-  const handleReset = () => {
-    if (imageHistory.length > 0) {
-      setCurrentIndex(0);
-      setImageHistory([imageHistory[0]]); // 첫 번째 이미지만 남기고 모두 제거
-  
-      // 원본 이미지 상태로 초기화
-      const img = new Image();
-      img.onload = async () => {  // async 추가
-        // 디스플레이 캔버스 초기화
-        const displayCanvas = displayCanvasRef.current;
-        const displayCtx = displayCanvas.getContext('2d');
-        displayCtx.drawImage(img, 0, 0, displayCanvas.width, displayCanvas.height);
-          
-        // 메인 이미지 상태 업데이트
-        const blob = await fetch(img.src).then(r => r.blob());
-        setImage(blob);
-          
-        // 마스크 캔버스도 초기화
-        const maskCanvas = maskCanvasRef.current;
-        const maskCtx = maskCanvas.getContext('2d');
-        maskCtx.fillStyle = 'black';
-        maskCtx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
-      };
-      img.src = imageHistory[0];
-    }
-  };
-
-
   return (
     <div className="flex flex-col gap-4 p-4 items-center">
+      {/* 상단 컨트롤 */}
       <div className="flex gap-4 items-center mb-4">
+        {/* 이미지 업로드 */}
         <input
           type="file"
           accept="image/*"
           onChange={(e) => {
             if (e.target.files?.[0]) {
               setImage(e.target.files[0]);
-              setError(null);
               setPrompt('');
               setImageHistory([]);
               setCurrentIndex(0);
+              setError(null);
             }
           }}
           className="p-2 border rounded"
         />
+        
+        {/* 프롬프트 입력 */}
         <input
           type="text"
-          placeholder="Enter prompt"
+          placeholder="Enter prompt for image editing"
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           className="p-2 border rounded w-64"
         />
-        
-        {/* 도구 선택 버튼 추가 */}
-        <div className="flex items-center gap-2">
+      </div>
+
+      {/* 도구 선택 */}
+      <div className="flex gap-4 items-center mb-4">
+        <div className="flex gap-2">
           <button
             onClick={() => setSelectedTool('brush')}
             className={`px-3 py-1 rounded ${
@@ -332,16 +283,6 @@ const ImageMaskEditor = () => {
           >
             Rectangle
           </button>
-          <button
-            onClick={() => setSelectedTool('circle')}
-            className={`px-3 py-1 rounded ${
-              selectedTool === 'circle'
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-200 hover:bg-gray-300'
-            }`}
-          >
-            Circle
-          </button>
         </div>
 
         {selectedTool === 'brush' && (
@@ -359,8 +300,12 @@ const ImageMaskEditor = () => {
         )}
       </div>
 
-      {error && <div className="text-red-500 mb-4">{error}</div>}
+      {/* 에러 메시지 */}
+      {error && (
+        <div className="text-red-500 mb-4">{error}</div>
+      )}
 
+      {/* 캔버스 */}
       <div className="relative border border-gray-300 rounded">
         <canvas
           ref={displayCanvasRef}
@@ -374,33 +319,88 @@ const ImageMaskEditor = () => {
         <canvas ref={maskCanvasRef} className="hidden" />
       </div>
 
+      {/* 하단 컨트롤 */}
       <div className="flex gap-4">
+        {/* Remove/Edit 버튼 */}
         <button
-          onClick={handlePrevious}
+          onClick={() => handleEditImage('remove')}
+          disabled={!image || isLoading}
+          className={`px-4 py-2 rounded ${
+            image && !isLoading
+              ? 'bg-red-500 text-white hover:bg-red-600'
+              : 'bg-gray-300 text-gray-500'
+          }`}
+        >
+          Remove Object
+        </button>
+        <button
+          onClick={() => handleEditImage('edit')}
+          disabled={!image || isLoading || !prompt.trim()}
+          className={`px-4 py-2 rounded ${
+            image && !isLoading && prompt.trim()
+              ? 'bg-blue-500 text-white hover:bg-blue-600'
+              : 'bg-gray-300 text-gray-500'
+          }`}
+        >
+          Edit Image
+        </button>
+
+        {/* History 컨트롤 */}
+        <button
+          onClick={() => {
+            if (currentIndex > 0) {
+              setCurrentIndex(prev => prev - 1);
+              const img = new Image();
+              img.onload = async () => {
+                const blob = await fetch(img.src).then(r => r.blob());
+                setImage(blob);
+              };
+              img.src = imageHistory[currentIndex - 1];
+            }
+          }}
           disabled={currentIndex === 0}
           className={`px-4 py-2 rounded ${
             currentIndex > 0
-              ? 'bg-blue-500 text-white hover:bg-blue-600'
+              ? 'bg-gray-500 text-white hover:bg-gray-600'
               : 'bg-gray-300 text-gray-500'
           }`}
         >
           Previous
         </button>
-
         <button
-          onClick={handleNext}
+          onClick={() => {
+            if (currentIndex < imageHistory.length - 1) {
+              setCurrentIndex(prev => prev + 1);
+              const img = new Image();
+              img.onload = async () => {
+                const blob = await fetch(img.src).then(r => r.blob());
+                setImage(blob);
+              };
+              img.src = imageHistory[currentIndex + 1];
+            }
+          }}
           disabled={currentIndex >= imageHistory.length - 1}
           className={`px-4 py-2 rounded ${
             currentIndex < imageHistory.length - 1
-              ? 'bg-blue-500 text-white hover:bg-blue-600'
+              ? 'bg-gray-500 text-white hover:bg-gray-600'
               : 'bg-gray-300 text-gray-500'
           }`}
         >
           Next
         </button>
-
         <button
-          onClick={handleReset}
+          onClick={() => {
+            if (imageHistory.length > 0) {
+              setCurrentIndex(0);
+              setImageHistory([imageHistory[0]]);
+              const img = new Image();
+              img.onload = async () => {
+                const blob = await fetch(img.src).then(r => r.blob());
+                setImage(blob);
+              };
+              img.src = imageHistory[0];
+            }
+          }}
           disabled={imageHistory.length <= 1}
           className={`px-4 py-2 rounded ${
             imageHistory.length > 1
@@ -410,19 +410,14 @@ const ImageMaskEditor = () => {
         >
           Reset
         </button>
-
-        <button
-          onClick={handleSubmit}
-          disabled={!image || isLoading}
-          className={`px-4 py-2 rounded ${
-            image && !isLoading
-              ? 'bg-green-500 text-white hover:bg-green-600'
-              : 'bg-gray-300 text-gray-500'
-          }`}
-        >
-          {isLoading ? 'Processing...' : 'Edit Image'}
-        </button>
       </div>
+
+      {/* Loading 상태 */}
+      {isLoading && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-4 rounded">Processing...</div>
+        </div>
+      )}
     </div>
   );
 };
