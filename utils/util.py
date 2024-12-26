@@ -1,4 +1,3 @@
-```python
 import os
 import cv2
 from PIL import Image
@@ -186,4 +185,3 @@ def dilate_mask(
         return cv2.dilate(mask, kernel, iterations=iterations)
     except Exception as e:
         raise ValueError(f"Error dilating mask: {str(e)}")
-```

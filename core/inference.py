@@ -9,9 +9,9 @@ import gc
 from PIL import Image
 import tritonclient.http
 
-from utils.image_processing import ImageProcessor, ProcessingConfig, ModelType
+from core.image_processing import ImageProcessor, ProcessingConfig, ModelType
 from utils.lama_cleaner_helper import norm_img
-from utils.model_setup import (
+from core.model_setup import (
     get_triton_client,
     get_sd_inpaint,
     get_lama_cleaner
@@ -156,8 +156,6 @@ class ImageEditPipeline:
         except Exception as e:
             logger.error("Object removal failed", exc_info=e)
             raise RuntimeError(f"Removal error: {str(e)}")
-
-    # edit_object와 process_image 메서드는 이전과 동일
 
     def edit_object(
         self,

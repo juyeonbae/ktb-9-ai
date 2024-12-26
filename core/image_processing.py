@@ -6,7 +6,7 @@ import logging
 from enum import Enum
 from dataclasses import dataclass
 
-from utils.image_quality import ImageQualityManager, ProcessingConfig
+from core.image_quality import ImageQualityManager, ProcessingConfig
 
 logger = logging.getLogger(__name__)
 

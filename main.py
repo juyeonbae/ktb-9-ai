@@ -8,8 +8,8 @@ from PIL import Image
 import numpy as np
 import logging
 
-from utils.image_processing import ImageProcessor, ProcessingConfig
-from utils.inference import ImageEditPipeline
+from core.image_processing import ImageProcessor, ProcessingConfig
+from core.inference import ImageEditPipeline
 
 
 REMOVE_ACTION = "remove"
@@ -52,6 +52,11 @@ async def edit_image(
                 
         try:
             img = Image.open(io.BytesIO(image_content))
+            
+            if img.mode == 'RGBA':
+                logger.info("Converting image from RGBA to RGB mode")
+                img = img.convert('RGB')
+            
         except Exception as e:
             logger.error(f"Image open error: {str(e)}")
             raise HTTPException(status_code=400, detail="Invalid image format")

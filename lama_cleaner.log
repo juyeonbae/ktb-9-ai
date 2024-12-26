@@ -1,773 +1,85 @@
-2024-12-10 00:22:49,347 - utils.inference - ERROR - 인페인팅 실패
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 158, in sd_inpaint
-    pipe = StableDiffusionInpaintPipeline.from_pretrained(
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
-    return fn(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/diffusers/pipelines/pipeline_utils.py", line 725, in from_pretrained
-    cached_folder = cls.download(
-                    ^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
-    return fn(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/diffusers/pipelines/pipeline_utils.py", line 1390, in download
-    ignore_patterns = _get_ignore_patterns(
-                      ^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/diffusers/pipelines/pipeline_loading_utils.py", line 906, in _get_ignore_patterns
-    raise EnvironmentError(
-OSError: Could not find the necessary `safetensors` weights in {'vae/diffusion_pytorch_model.bin', 'unet/diffusion_pytorch_model.bin', 'text_encoder/pytorch_model.bin', 'safety_checker/pytorch_model.bin'} (variant=None)
-2024-12-10 13:33:10,305 - utils.inference - ERROR - 인페인팅 실패
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 158, in sd_inpaint
-    mask = mask.filter(ImageFilter.GaussianBlur(radius=2))  # 경계 부드럽게
-                      ^^^^^^^^^^^
-NameError: name 'ImageFilter' is not defined
-2024-12-10 16:12:23,633 - utils.inference - INFO - Original prompt: 만세하고 있는 사람 대신 갈색 시바견을 추가해줘
-2024-12-10 16:12:23,636 - utils.inference - INFO - Processed prompt: Please add a brown Shiba Inu instead of the person doing the cheering., high quality, detailed, sharp focus
-2024-12-10 16:13:47,083 - utils.inference - INFO - Original prompt: 에펠탑을 지우고, 하늘과 자연스럽게 어울리도록 배경을 생성해줘
-2024-12-10 16:13:47,084 - utils.inference - INFO - Processed prompt: Erase the Eiffel Tower and create a background that blends naturally and seamlessly with the sky., high quality, detailed, sharp focus
-2024-12-10 16:15:27,780 - utils.inference - INFO - Original prompt: 파리의 여름 하늘과 공원 배경, 나무들이 있는 자연스러운 풍경, 사람들이 공원에서 휴식을 취하는 모습
-2024-12-10 16:15:27,781 - utils.inference - INFO - Processed prompt: Paris summer sky and park background, natural landscape with trees, people relaxing in the park, high quality, detailed, sharp focus
-2024-12-10 16:17:53,095 - utils.inference - INFO - Original prompt: 검정색으로 바꿔줘
-2024-12-10 16:17:53,096 - utils.inference - INFO - Processed prompt: change it to black, high quality, detailed, sharp focus
-2024-12-10 16:30:47,058 - utils.inference - INFO - Original prompt: 모나리자 그림을 추가해줘
-2024-12-10 16:30:47,059 - utils.inference - INFO - Processed prompt: Add a picture of the Mona Lisa, high quality, detailed, sharp focus
-2024-12-10 16:42:45,825 - utils.prompt_processor - INFO - 원본 프롬프트: 에펠탑을 지워줘
-2024-12-10 16:42:45,826 - utils.prompt_processor - INFO - 처리된 프롬프트: Using professional image inpainting technique: Eiffel remove this completely and fill with natural background, ensure high quality result, maintain original image details and lighting, blend seamlessly with surroundings, preserve original image style, best quality, high resolution, highly detailed , professional photo retouching, seamless editing, perfect composition, maintain original style
-2024-12-10 16:44:37,243 - utils.prompt_processor - INFO - 원본 프롬프트: 에펠탑을 지워줘
-2024-12-10 16:44:37,244 - utils.prompt_processor - INFO - 처리된 프롬프트: Using professional image inpainting technique: Eiffel remove this completely and fill with natural background, ensure high quality result, maintain original image details and lighting, blend seamlessly with surroundings, preserve original image style, best quality, high resolution, highly detailed , professional photo retouching, seamless editing, perfect composition, maintain original style
-2024-12-10 16:54:03,974 - utils.prompt_processor - INFO - 원본 프롬프트: 탑을 지워줘
-2024-12-10 16:54:03,975 - utils.prompt_processor - INFO - 처리된 프롬프트: Using professional image inpainting technique: remove the tower completely and fill with natural background, ensure high quality result, maintain original image details and lighting, blend seamlessly with surroundings, preserve original image style, best quality, high resolution, highly detailed, professional photo retouching, seamless editing, perfect composition, maintain original style
-2024-12-10 16:54:05,230 - utils.inference - ERROR - 인페인팅 실패
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 192, in sd_inpaint
-    pipe = StableDiffusionInpaintPipeline.from_pretrained(
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
-    return fn(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/diffusers/pipelines/pipeline_utils.py", line 725, in from_pretrained
-    cached_folder = cls.download(
-                    ^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
-    return fn(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/diffusers/pipelines/pipeline_utils.py", line 1390, in download
-    ignore_patterns = _get_ignore_patterns(
-                      ^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/diffusers/pipelines/pipeline_loading_utils.py", line 906, in _get_ignore_patterns
-    raise EnvironmentError(
-OSError: Could not find the necessary `safetensors` weights in {'safety_checker/pytorch_model.bin', 'vae/diffusion_pytorch_model.bin', 'text_encoder/pytorch_model.bin', 'unet/diffusion_pytorch_model.bin'} (variant=None)
-2024-12-10 16:57:09,296 - utils.prompt_processor - INFO - 원본 프롬프트: 탑을 지워줘
-2024-12-10 16:57:09,297 - utils.prompt_processor - INFO - 처리된 프롬프트: Using professional image inpainting technique: remove the tower completely and fill with natural background, ensure high quality result, maintain original image details and lighting, blend seamlessly with surroundings, preserve original image style, best quality, high resolution, highly detailed, professional photo retouching, seamless editing, perfect composition, maintain original style
-2024-12-10 17:09:30,074 - utils.prompt_processor - INFO - 원본 프롬프트: 에펠 탑을 지워줘
-2024-12-10 17:09:30,074 - utils.prompt_processor - INFO - 처리된 프롬프트: Remove the Eiffel Tower completely and fill with natural background, maintain consistency with surroundings, preserve lighting and perspective, natural integration, best quality, high resolution, highly detailed, professional photo retouching, seamless editing, perfect composition
-2024-12-10 17:15:12,066 - utils.prompt_processor - INFO - 원본 프롬프트: 지워줘
-2024-12-10 17:15:12,067 - utils.prompt_processor - INFO - 처리된 프롬프트: remove this completely and fill with natural background, maintain consistency with surroundings, preserve lighting and perspective, natural integration, best quality, high resolution, highly detailed, professional photo retouching, seamless editing, perfect composition
-2024-12-10 21:12:43,524 - utils.inference - INFO - LaMa Cleaner를 사용하여 객체 제거 수행
-2024-12-10 21:12:43,537 - utils.inference - ERROR - LaMa 클리닝 실패
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 248, in lama_cleaner
-    model = get_lama_cleaner()
-            ^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/model_setup.py", line 49, in get_lama_cleaner
-    lama_model = load_jit_model(LAMA_MODEL_URL, device, LAMA_MODEL_MD5).eval()
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: load_jit_model() takes from 1 to 2 positional arguments but 3 were given
-2024-12-10 21:12:43,538 - utils.inference - ERROR - 인페인팅 실패
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 248, in lama_cleaner
-    model = get_lama_cleaner()
-            ^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/model_setup.py", line 49, in get_lama_cleaner
-    lama_model = load_jit_model(LAMA_MODEL_URL, device, LAMA_MODEL_MD5).eval()
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: load_jit_model() takes from 1 to 2 positional arguments but 3 were given
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 188, in sd_inpaint
-    return lama_cleaner(
-           ^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 264, in lama_cleaner
-    raise RuntimeError(f"이미지 클리닝 실패: {str(e)}")
-RuntimeError: 이미지 클리닝 실패: load_jit_model() takes from 1 to 2 positional arguments but 3 were given
-2024-12-10 21:18:41,980 - utils.inference - INFO - LaMa Cleaner를 사용하여 객체 제거 수행
-2024-12-10 21:18:42,327 - utils.lama_cleaner_helper - INFO - Model validated successfully: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
-2024-12-10 21:18:42,327 - utils.lama_cleaner_helper - INFO - Loading model from: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
-2024-12-10 21:18:44,449 - utils.inference - ERROR - LaMa 클리닝 실패
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 257, in lama_cleaner
-    inpainted = model(image, mask)
-                ^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
-    return forward_call(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: The following operation failed in the TorchScript interpreter.
-Traceback of TorchScript, serialized code (most recent call last):
-  File "code/__torch__/saicinpainting/training/trainers/default.py", line 13, in forward
-    masked_img = torch.mul(img, torch.rsub(mask, 1, 1))
-    input = torch.cat([masked_img, mask], 1)
-    _1 = torch.mul(mask, (_0).forward(input, ))
-         ~~~~~~~~~ <--- HERE
-    _2 = torch.mul(torch.rsub(mask, 1, 1), img)
-    return torch.add(_1, _2, alpha=1)
-
-Traceback of TorchScript, original code (most recent call last):
-/root/home/code/lama/saicinpainting/training/trainers/default.py(84): forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(860): _slow_forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(887): _call_impl
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(940): trace_module
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(742): trace
-bin/to_jit.py(46): main
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/core/utils.py(160): run_job
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/hydra.py(105): run
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(371): <lambda>
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(211): run_and_report
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(368): _run_hydra
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/main.py(53): decorated_main
-bin/to_jit.py(59): <module>
-RuntimeError: The size of tensor a (666) must match the size of tensor b (672) at non-singleton dimension 2
-
-2024-12-10 21:18:44,453 - utils.inference - ERROR - 인페인팅 실패
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 257, in lama_cleaner
-    inpainted = model(image, mask)
-                ^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
-    return forward_call(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: The following operation failed in the TorchScript interpreter.
-Traceback of TorchScript, serialized code (most recent call last):
-  File "code/__torch__/saicinpainting/training/trainers/default.py", line 13, in forward
-    masked_img = torch.mul(img, torch.rsub(mask, 1, 1))
-    input = torch.cat([masked_img, mask], 1)
-    _1 = torch.mul(mask, (_0).forward(input, ))
-         ~~~~~~~~~ <--- HERE
-    _2 = torch.mul(torch.rsub(mask, 1, 1), img)
-    return torch.add(_1, _2, alpha=1)
-
-Traceback of TorchScript, original code (most recent call last):
-/root/home/code/lama/saicinpainting/training/trainers/default.py(84): forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(860): _slow_forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(887): _call_impl
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(940): trace_module
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(742): trace
-bin/to_jit.py(46): main
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/core/utils.py(160): run_job
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/hydra.py(105): run
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(371): <lambda>
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(211): run_and_report
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(368): _run_hydra
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/main.py(53): decorated_main
-bin/to_jit.py(59): <module>
-RuntimeError: The size of tensor a (666) must match the size of tensor b (672) at non-singleton dimension 2
-
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 188, in sd_inpaint
-    return lama_cleaner(
-           ^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 264, in lama_cleaner
-    raise RuntimeError(f"이미지 클리닝 실패: {str(e)}")
-RuntimeError: 이미지 클리닝 실패: The following operation failed in the TorchScript interpreter.
-Traceback of TorchScript, serialized code (most recent call last):
-  File "code/__torch__/saicinpainting/training/trainers/default.py", line 13, in forward
-    masked_img = torch.mul(img, torch.rsub(mask, 1, 1))
-    input = torch.cat([masked_img, mask], 1)
-    _1 = torch.mul(mask, (_0).forward(input, ))
-         ~~~~~~~~~ <--- HERE
-    _2 = torch.mul(torch.rsub(mask, 1, 1), img)
-    return torch.add(_1, _2, alpha=1)
-
-Traceback of TorchScript, original code (most recent call last):
-/root/home/code/lama/saicinpainting/training/trainers/default.py(84): forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(860): _slow_forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(887): _call_impl
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(940): trace_module
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(742): trace
-bin/to_jit.py(46): main
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/core/utils.py(160): run_job
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/hydra.py(105): run
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(371): <lambda>
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(211): run_and_report
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(368): _run_hydra
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/main.py(53): decorated_main
-bin/to_jit.py(59): <module>
-RuntimeError: The size of tensor a (666) must match the size of tensor b (672) at non-singleton dimension 2
-
-2024-12-10 21:20:56,727 - utils.inference - INFO - LaMa Cleaner를 사용하여 객체 제거 수행
-2024-12-10 21:20:57,067 - utils.lama_cleaner_helper - INFO - Model validated successfully: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
-2024-12-10 21:20:57,067 - utils.lama_cleaner_helper - INFO - Loading model from: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
-2024-12-10 21:20:57,466 - utils.inference - ERROR - LaMa 클리닝 실패
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 252, in lama_cleaner
-    mask = cv2.resize(mask, (w, h), interpolation=cv2.INTER_NEAREST)
-           ^^^
-NameError: name 'cv2' is not defined
-2024-12-10 21:20:57,466 - utils.inference - ERROR - 인페인팅 실패
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 252, in lama_cleaner
-    mask = cv2.resize(mask, (w, h), interpolation=cv2.INTER_NEAREST)
-           ^^^
-NameError: name 'cv2' is not defined
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 188, in sd_inpaint
-    return lama_cleaner(
-           ^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 276, in lama_cleaner
-    raise RuntimeError(f"이미지 클리닝 실패: {str(e)}")
-RuntimeError: 이미지 클리닝 실패: name 'cv2' is not defined
-2024-12-10 21:21:39,139 - utils.inference - INFO - LaMa Cleaner를 사용하여 객체 제거 수행
-2024-12-10 21:21:39,471 - utils.lama_cleaner_helper - INFO - Model validated successfully: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
-2024-12-10 21:21:39,471 - utils.lama_cleaner_helper - INFO - Loading model from: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
-2024-12-10 21:21:40,601 - utils.inference - ERROR - LaMa 클리닝 실패
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 269, in lama_cleaner
-    inpainted = model(image, mask)
-                ^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
-    return forward_call(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: The following operation failed in the TorchScript interpreter.
-Traceback of TorchScript, serialized code (most recent call last):
-  File "code/__torch__/saicinpainting/training/trainers/default.py", line 13, in forward
-    masked_img = torch.mul(img, torch.rsub(mask, 1, 1))
-    input = torch.cat([masked_img, mask], 1)
-    _1 = torch.mul(mask, (_0).forward(input, ))
-         ~~~~~~~~~ <--- HERE
-    _2 = torch.mul(torch.rsub(mask, 1, 1), img)
-    return torch.add(_1, _2, alpha=1)
-
-Traceback of TorchScript, original code (most recent call last):
-/root/home/code/lama/saicinpainting/training/trainers/default.py(84): forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(860): _slow_forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(887): _call_impl
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(940): trace_module
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(742): trace
-bin/to_jit.py(46): main
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/core/utils.py(160): run_job
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/hydra.py(105): run
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(371): <lambda>
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(211): run_and_report
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(368): _run_hydra
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/main.py(53): decorated_main
-bin/to_jit.py(59): <module>
-RuntimeError: The size of tensor a (666) must match the size of tensor b (672) at non-singleton dimension 2
-
-2024-12-10 21:21:40,611 - utils.inference - ERROR - 인페인팅 실패
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 269, in lama_cleaner
-    inpainted = model(image, mask)
-                ^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
-    return forward_call(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: The following operation failed in the TorchScript interpreter.
-Traceback of TorchScript, serialized code (most recent call last):
-  File "code/__torch__/saicinpainting/training/trainers/default.py", line 13, in forward
-    masked_img = torch.mul(img, torch.rsub(mask, 1, 1))
-    input = torch.cat([masked_img, mask], 1)
-    _1 = torch.mul(mask, (_0).forward(input, ))
-         ~~~~~~~~~ <--- HERE
-    _2 = torch.mul(torch.rsub(mask, 1, 1), img)
-    return torch.add(_1, _2, alpha=1)
-
-Traceback of TorchScript, original code (most recent call last):
-/root/home/code/lama/saicinpainting/training/trainers/default.py(84): forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(860): _slow_forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(887): _call_impl
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(940): trace_module
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(742): trace
-bin/to_jit.py(46): main
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/core/utils.py(160): run_job
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/hydra.py(105): run
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(371): <lambda>
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(211): run_and_report
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(368): _run_hydra
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/main.py(53): decorated_main
-bin/to_jit.py(59): <module>
-RuntimeError: The size of tensor a (666) must match the size of tensor b (672) at non-singleton dimension 2
-
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 188, in sd_inpaint
-    return lama_cleaner(
-           ^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 276, in lama_cleaner
-    raise RuntimeError(f"이미지 클리닝 실패: {str(e)}")
-RuntimeError: 이미지 클리닝 실패: The following operation failed in the TorchScript interpreter.
-Traceback of TorchScript, serialized code (most recent call last):
-  File "code/__torch__/saicinpainting/training/trainers/default.py", line 13, in forward
-    masked_img = torch.mul(img, torch.rsub(mask, 1, 1))
-    input = torch.cat([masked_img, mask], 1)
-    _1 = torch.mul(mask, (_0).forward(input, ))
-         ~~~~~~~~~ <--- HERE
-    _2 = torch.mul(torch.rsub(mask, 1, 1), img)
-    return torch.add(_1, _2, alpha=1)
-
-Traceback of TorchScript, original code (most recent call last):
-/root/home/code/lama/saicinpainting/training/trainers/default.py(84): forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(860): _slow_forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(887): _call_impl
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(940): trace_module
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(742): trace
-bin/to_jit.py(46): main
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/core/utils.py(160): run_job
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/hydra.py(105): run
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(371): <lambda>
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(211): run_and_report
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(368): _run_hydra
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/main.py(53): decorated_main
-bin/to_jit.py(59): <module>
-RuntimeError: The size of tensor a (666) must match the size of tensor b (672) at non-singleton dimension 2
-
-2024-12-10 21:23:21,379 - utils.inference - INFO - LaMa Cleaner를 사용하여 객체 제거 수행
-2024-12-10 21:23:21,719 - utils.lama_cleaner_helper - INFO - Model validated successfully: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
-2024-12-10 21:23:21,719 - utils.lama_cleaner_helper - INFO - Loading model from: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
-2024-12-10 21:23:49,217 - utils.inference - INFO - LaMa Cleaner를 사용하여 객체 제거 수행
-2024-12-10 21:24:05,380 - utils.inference - ERROR - LaMa 클리닝 실패
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 272, in lama_cleaner
-    inpainted = model(image, mask)
-                ^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
-    return forward_call(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: The following operation failed in the TorchScript interpreter.
-Traceback of TorchScript, serialized code (most recent call last):
-  File "code/__torch__/saicinpainting/training/trainers/default.py", line 13, in forward
-    masked_img = torch.mul(img, torch.rsub(mask, 1, 1))
-    input = torch.cat([masked_img, mask], 1)
-    _1 = torch.mul(mask, (_0).forward(input, ))
-                          ~~~~~~~~~~~ <--- HERE
-    _2 = torch.mul(torch.rsub(mask, 1, 1), img)
-    return torch.add(_1, _2, alpha=1)
-  File "code/__torch__/saicinpainting/training/modules/ffc.py", line 9, in forward
-  def forward(self: __torch__.saicinpainting.training.modules.ffc.FFCResNetGenerator,
-    input: Tensor) -> Tensor:
-    return (self.model).forward(input, )
-            ~~~~~~~~~~~~~~~~~~~ <--- HERE
-class FFC_BN_ACT(Module):
-  __parameters__ = []
-  File "code/__torch__/torch/nn/modules/container/___torch_mangle_818.py", line 102, in forward
-    _75 = (_6).forward((_7).forward((_8).forward(_74, ), ), )
-    _76 = (_7).forward1((_5).forward(_75, ), )
-    _77 = (_7).forward2((_3).forward((_4).forward(_76, ), ), )
-                                      ~~~~~~~~~~~ <--- HERE
-    _78 = (_0).forward((_1).forward((_2).forward(_77, ), ), )
-    return _78
-  File "code/__torch__/torch/nn/modules/conv/___torch_mangle_813.py", line 11, in forward
-    argument_1: Tensor) -> Tensor:
-    _0 = self.bias
-    input = torch._convolution(argument_1, self.weight, _0, [2, 2], [1, 1], [1, 1], True, [1, 1], 1, False, False, True, True)
-            ~~~~~~~~~~~~~~~~~~ <--- HERE
-    return input
-
-Traceback of TorchScript, original code (most recent call last):
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/conv.py(842): forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(860): _slow_forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(887): _call_impl
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/container.py(119): forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(860): _slow_forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(887): _call_impl
-/root/home/code/lama/saicinpainting/training/modules/ffc.py(367): forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(860): _slow_forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(887): _call_impl
-/root/home/code/lama/saicinpainting/training/trainers/default.py(83): forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(860): _slow_forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(887): _call_impl
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(940): trace_module
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(742): trace
-bin/to_jit.py(46): main
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/core/utils.py(160): run_job
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/hydra.py(105): run
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(371): <lambda>
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(211): run_and_report
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(368): _run_hydra
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/main.py(53): decorated_main
-bin/to_jit.py(59): <module>
-RuntimeError: MPS backend out of memory (MPS allocated: 17.69 GB, other allocations: 370.97 MB, max allowed: 18.13 GB). Tried to allocate 447.12 MB on private pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).
-
-2024-12-10 21:24:05,460 - utils.inference - ERROR - 인페인팅 실패
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 272, in lama_cleaner
-    inpainted = model(image, mask)
-                ^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
-    return forward_call(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: The following operation failed in the TorchScript interpreter.
-Traceback of TorchScript, serialized code (most recent call last):
-  File "code/__torch__/saicinpainting/training/trainers/default.py", line 13, in forward
-    masked_img = torch.mul(img, torch.rsub(mask, 1, 1))
-    input = torch.cat([masked_img, mask], 1)
-    _1 = torch.mul(mask, (_0).forward(input, ))
-                          ~~~~~~~~~~~ <--- HERE
-    _2 = torch.mul(torch.rsub(mask, 1, 1), img)
-    return torch.add(_1, _2, alpha=1)
-  File "code/__torch__/saicinpainting/training/modules/ffc.py", line 9, in forward
-  def forward(self: __torch__.saicinpainting.training.modules.ffc.FFCResNetGenerator,
-    input: Tensor) -> Tensor:
-    return (self.model).forward(input, )
-            ~~~~~~~~~~~~~~~~~~~ <--- HERE
-class FFC_BN_ACT(Module):
-  __parameters__ = []
-  File "code/__torch__/torch/nn/modules/container/___torch_mangle_818.py", line 102, in forward
-    _75 = (_6).forward((_7).forward((_8).forward(_74, ), ), )
-    _76 = (_7).forward1((_5).forward(_75, ), )
-    _77 = (_7).forward2((_3).forward((_4).forward(_76, ), ), )
-                                      ~~~~~~~~~~~ <--- HERE
-    _78 = (_0).forward((_1).forward((_2).forward(_77, ), ), )
-    return _78
-  File "code/__torch__/torch/nn/modules/conv/___torch_mangle_813.py", line 11, in forward
-    argument_1: Tensor) -> Tensor:
-    _0 = self.bias
-    input = torch._convolution(argument_1, self.weight, _0, [2, 2], [1, 1], [1, 1], True, [1, 1], 1, False, False, True, True)
-            ~~~~~~~~~~~~~~~~~~ <--- HERE
-    return input
-
-Traceback of TorchScript, original code (most recent call last):
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/conv.py(842): forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(860): _slow_forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(887): _call_impl
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/container.py(119): forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(860): _slow_forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(887): _call_impl
-/root/home/code/lama/saicinpainting/training/modules/ffc.py(367): forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(860): _slow_forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(887): _call_impl
-/root/home/code/lama/saicinpainting/training/trainers/default.py(83): forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(860): _slow_forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(887): _call_impl
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(940): trace_module
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(742): trace
-bin/to_jit.py(46): main
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/core/utils.py(160): run_job
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/hydra.py(105): run
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(371): <lambda>
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(211): run_and_report
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(368): _run_hydra
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/main.py(53): decorated_main
-bin/to_jit.py(59): <module>
-RuntimeError: MPS backend out of memory (MPS allocated: 17.69 GB, other allocations: 370.97 MB, max allowed: 18.13 GB). Tried to allocate 447.12 MB on private pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).
-
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 188, in sd_inpaint
-    return lama_cleaner(
-           ^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 284, in lama_cleaner
-    raise RuntimeError(f"이미지 클리닝 실패: {str(e)}")
-RuntimeError: 이미지 클리닝 실패: The following operation failed in the TorchScript interpreter.
-Traceback of TorchScript, serialized code (most recent call last):
-  File "code/__torch__/saicinpainting/training/trainers/default.py", line 13, in forward
-    masked_img = torch.mul(img, torch.rsub(mask, 1, 1))
-    input = torch.cat([masked_img, mask], 1)
-    _1 = torch.mul(mask, (_0).forward(input, ))
-                          ~~~~~~~~~~~ <--- HERE
-    _2 = torch.mul(torch.rsub(mask, 1, 1), img)
-    return torch.add(_1, _2, alpha=1)
-  File "code/__torch__/saicinpainting/training/modules/ffc.py", line 9, in forward
-  def forward(self: __torch__.saicinpainting.training.modules.ffc.FFCResNetGenerator,
-    input: Tensor) -> Tensor:
-    return (self.model).forward(input, )
-            ~~~~~~~~~~~~~~~~~~~ <--- HERE
-class FFC_BN_ACT(Module):
-  __parameters__ = []
-  File "code/__torch__/torch/nn/modules/container/___torch_mangle_818.py", line 102, in forward
-    _75 = (_6).forward((_7).forward((_8).forward(_74, ), ), )
-    _76 = (_7).forward1((_5).forward(_75, ), )
-    _77 = (_7).forward2((_3).forward((_4).forward(_76, ), ), )
-                                      ~~~~~~~~~~~ <--- HERE
-    _78 = (_0).forward((_1).forward((_2).forward(_77, ), ), )
-    return _78
-  File "code/__torch__/torch/nn/modules/conv/___torch_mangle_813.py", line 11, in forward
-    argument_1: Tensor) -> Tensor:
-    _0 = self.bias
-    input = torch._convolution(argument_1, self.weight, _0, [2, 2], [1, 1], [1, 1], True, [1, 1], 1, False, False, True, True)
-            ~~~~~~~~~~~~~~~~~~ <--- HERE
-    return input
-
-Traceback of TorchScript, original code (most recent call last):
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/conv.py(842): forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(860): _slow_forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(887): _call_impl
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/container.py(119): forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(860): _slow_forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(887): _call_impl
-/root/home/code/lama/saicinpainting/training/modules/ffc.py(367): forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(860): _slow_forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(887): _call_impl
-/root/home/code/lama/saicinpainting/training/trainers/default.py(83): forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(860): _slow_forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(887): _call_impl
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(940): trace_module
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(742): trace
-bin/to_jit.py(46): main
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/core/utils.py(160): run_job
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/hydra.py(105): run
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(371): <lambda>
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(211): run_and_report
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(368): _run_hydra
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/main.py(53): decorated_main
-bin/to_jit.py(59): <module>
-RuntimeError: MPS backend out of memory (MPS allocated: 17.69 GB, other allocations: 370.97 MB, max allowed: 18.13 GB). Tried to allocate 447.12 MB on private pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).
-
-2024-12-10 21:25:26,483 - utils.inference - INFO - LaMa Cleaner를 사용하여 객체 제거 수행
-2024-12-10 21:25:26,834 - utils.lama_cleaner_helper - INFO - Model validated successfully: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
-2024-12-10 21:25:26,834 - utils.lama_cleaner_helper - INFO - Loading model from: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
-2024-12-10 21:26:25,271 - utils.inference - INFO - LaMa Cleaner를 사용하여 객체 제거 수행
-2024-12-10 21:26:47,398 - utils.inference - INFO - LaMa Cleaner를 사용하여 객체 제거 수행
-2024-12-10 21:28:48,792 - utils.inference - INFO - Stable Diffusion Inpainting을 사용하여 이미지 편집 수행
-2024-12-10 21:28:49,419 - utils.prompt_processor - INFO - 원본 프롬프트: 모나리자 사진으로 바꿔줘
-2024-12-10 21:28:49,420 - utils.prompt_processor - INFO - 처리된 프롬프트: Transform this into a Mona Lisa photo, maintain consistency with surroundings, preserve lighting and perspective, natural integration, best quality, high resolution, highly detailed, professional photo retouching, seamless editing, perfect composition
-2024-12-10 21:47:08,305 - utils.inference - INFO - LaMa Cleaner를 사용하여 객체 제거 수행
-2024-12-10 21:47:08,671 - utils.lama_cleaner_helper - INFO - Model validated successfully: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
-2024-12-10 21:47:08,671 - utils.lama_cleaner_helper - INFO - Loading model from: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
-2024-12-10 21:47:18,742 - utils.inference - INFO - LaMa Cleaner를 사용하여 객체 제거 수행
-2024-12-10 21:56:51,559 - utils.inference - INFO - Stable Diffusion XL을 사용하여 객체 생성 수행
-2024-12-10 21:56:51,584 - utils.inference - ERROR - 인페인팅 실패
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 257, in sd_inpaint
-    enhanced_prompt = prompt_processor.process_generation_prompt(inpaint_prompt)
-                      ^^^^^^^^^^^^^^^^
-UnboundLocalError: cannot access local variable 'prompt_processor' where it is not associated with a value
-2024-12-10 21:58:25,564 - utils.inference - INFO - Stable Diffusion XL을 사용하여 객체 생성 수행
-2024-12-10 21:59:23,682 - utils.inference - INFO - Stable Diffusion XL을 사용하여 객체 생성 수행
-2024-12-10 22:00:17,385 - utils.inference - INFO - Stable Diffusion XL을 사용하여 객체 생성 수행
-2024-12-10 22:02:33,496 - utils.inference - INFO - Stable Diffusion XL을 사용하여 객체 생성 수행
-2024-12-10 22:43:40,486 - utils.inference - INFO - Stable Diffusion XL을 사용하여 객체 생성 수행
-2024-12-10 22:43:46,898 - utils.inference - ERROR - 이미지 생성 실패
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 103, in generate_and_add
-    context_prompt = analyze_image_context(image, mask)  # 이미지 컨텍스트 분석
-                     ^^^^^^^^^^^^^^^^^^^^^
-NameError: name 'analyze_image_context' is not defined
-2024-12-10 22:43:46,910 - utils.inference - ERROR - 인페인팅 실패
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 103, in generate_and_add
-    context_prompt = analyze_image_context(image, mask)  # 이미지 컨텍스트 분석
-                     ^^^^^^^^^^^^^^^^^^^^^
-NameError: name 'analyze_image_context' is not defined
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 264, in sd_inpaint
-    return generate_and_add(image, mask, enhanced_prompt)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 127, in generate_and_add
-    raise RuntimeError(f"이미지 생성 실패: {str(e)}")
-RuntimeError: 이미지 생성 실패: name 'analyze_image_context' is not defined
-2024-12-11 09:57:17,314 - utils.inference - INFO - Selected model type: sd2
-2024-12-11 09:57:17,314 - utils.inference - INFO - Using SD2 for generation
-2024-12-11 09:57:17,320 - utils.inference - INFO - Starting image generation process
-2024-12-11 11:07:03,105 - utils.inference - INFO - Selected model type: lama
-2024-12-11 11:07:03,107 - utils.inference - INFO - Using LaMa Cleaner for removal
-2024-12-11 11:07:03,110 - utils.inference - ERROR - Inpainting failed
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 373, in sd_inpaint
-    mask=np.array(preprocess_mask(mask)),
-                  ^^^^^^^^^^^^^^^
-NameError: name 'preprocess_mask' is not defined
-2024-12-11 14:18:23,699 - utils.inference - INFO - Selected model type: lama
-2024-12-11 14:18:23,699 - utils.inference - INFO - Using LaMa Cleaner for removal
-2024-12-11 14:18:23,702 - utils.inference - ERROR - Inpainting failed
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 373, in sd_inpaint
-    mask=np.array(preprocess_mask(mask)),
-                  ^^^^^^^^^^^^^^^
-NameError: name 'preprocess_mask' is not defined
-2024-12-11 14:23:19,508 - utils.inference - INFO - Selected model type: lama
-2024-12-11 14:23:19,545 - utils.inference - INFO - Using LaMa Cleaner for removal
-2024-12-11 14:23:19,545 - utils.inference - INFO - Starting LaMa cleaning process
-2024-12-11 14:23:19,885 - utils.lama_cleaner_helper - INFO - Model validated successfully: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
-2024-12-11 14:23:19,885 - utils.lama_cleaner_helper - INFO - Loading model from: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
-2024-12-11 14:23:48,854 - utils.inference - INFO - Selected model type: lama
-2024-12-11 14:23:48,870 - utils.inference - INFO - Using LaMa Cleaner for removal
-2024-12-11 14:23:48,872 - utils.inference - INFO - Starting LaMa cleaning process
-2024-12-11 14:28:55,428 - utils.inference - INFO - Selected model type: lama
-2024-12-11 14:28:55,450 - utils.inference - INFO - Using LaMa Cleaner for removal
-2024-12-11 14:28:55,451 - utils.inference - INFO - Starting LaMa cleaning process
-2024-12-11 14:29:22,559 - utils.inference - INFO - Selected model type: lama
-2024-12-11 14:29:22,593 - utils.inference - INFO - Using LaMa Cleaner for removal
-2024-12-11 14:29:22,594 - utils.inference - INFO - Starting LaMa cleaning process
-2024-12-11 14:29:44,630 - utils.inference - INFO - Selected model type: sd2
-2024-12-11 14:29:44,664 - utils.inference - INFO - Using SD2 for generation
-2024-12-11 14:29:44,671 - utils.inference - INFO - Starting image generation process
-2024-12-11 14:31:31,039 - utils.inference - INFO - Selected model type: sd2
-2024-12-11 14:31:31,090 - utils.inference - INFO - Using SD2 for generation
-2024-12-11 14:31:31,102 - utils.inference - INFO - Starting image generation process
-2024-12-11 14:33:24,468 - utils.inference - INFO - Selected model type: sd1
-2024-12-11 14:33:24,503 - utils.inference - INFO - Using SD1 for general editing
-2024-12-11 14:33:25,083 - utils.prompt_processor - INFO - 원본 프롬프트: 드래곤 길들이기 영화 포스터로 변경해줘
-2024-12-11 14:33:25,084 - utils.prompt_processor - INFO - 처리된 프롬프트: Transform this into the How to Train Your Dragon movie poster, maintain consistency with surroundings, preserve lighting and perspective, natural integration, best quality, high resolution, highly detailed, professional photo retouching, seamless editing, perfect composition
-2024-12-11 14:38:53,790 - utils.inference - INFO - Selected model type: sd2
-2024-12-11 14:38:53,834 - utils.inference - INFO - Using SD2 for generation
-2024-12-11 14:38:53,840 - utils.inference - INFO - Starting image generation process
-2024-12-11 14:42:39,717 - utils.inference - INFO - Selected model type: sd2
-2024-12-11 14:42:39,766 - utils.inference - INFO - Using SD2 for generation
-2024-12-11 14:42:39,775 - utils.inference - INFO - Starting image generation process
-2024-12-11 14:47:57,198 - utils.inference - INFO - Selected model type: lama
-2024-12-11 14:47:57,204 - utils.inference - INFO - Using LaMa Cleaner for removal
-2024-12-11 14:47:57,206 - utils.inference - INFO - Starting LaMa cleaning process
-2024-12-11 14:47:57,552 - utils.lama_cleaner_helper - INFO - Model validated successfully: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
-2024-12-11 14:47:57,552 - utils.lama_cleaner_helper - INFO - Loading model from: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
-2024-12-11 14:47:59,809 - utils.inference - ERROR - LaMa cleaning failed
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 342, in lama_cleaner
-    with torch.no_grad():
-                    ^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
-    return forward_call(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: The following operation failed in the TorchScript interpreter.
-Traceback of TorchScript, serialized code (most recent call last):
-  File "code/__torch__/saicinpainting/training/trainers/default.py", line 13, in forward
-    masked_img = torch.mul(img, torch.rsub(mask, 1, 1))
-    input = torch.cat([masked_img, mask], 1)
-    _1 = torch.mul(mask, (_0).forward(input, ))
-         ~~~~~~~~~ <--- HERE
-    _2 = torch.mul(torch.rsub(mask, 1, 1), img)
-    return torch.add(_1, _2, alpha=1)
-
-Traceback of TorchScript, original code (most recent call last):
-/root/home/code/lama/saicinpainting/training/trainers/default.py(84): forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(860): _slow_forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(887): _call_impl
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(940): trace_module
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(742): trace
-bin/to_jit.py(46): main
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/core/utils.py(160): run_job
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/hydra.py(105): run
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(371): <lambda>
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(211): run_and_report
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(368): _run_hydra
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/main.py(53): decorated_main
-bin/to_jit.py(59): <module>
-RuntimeError: The size of tensor a (511) must match the size of tensor b (512) at non-singleton dimension 2
-
-2024-12-11 14:47:59,811 - utils.inference - ERROR - Inpainting failed
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 342, in lama_cleaner
-    with torch.no_grad():
-                    ^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/myenv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
-    return forward_call(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: The following operation failed in the TorchScript interpreter.
-Traceback of TorchScript, serialized code (most recent call last):
-  File "code/__torch__/saicinpainting/training/trainers/default.py", line 13, in forward
-    masked_img = torch.mul(img, torch.rsub(mask, 1, 1))
-    input = torch.cat([masked_img, mask], 1)
-    _1 = torch.mul(mask, (_0).forward(input, ))
-         ~~~~~~~~~ <--- HERE
-    _2 = torch.mul(torch.rsub(mask, 1, 1), img)
-    return torch.add(_1, _2, alpha=1)
-
-Traceback of TorchScript, original code (most recent call last):
-/root/home/code/lama/saicinpainting/training/trainers/default.py(84): forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(860): _slow_forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(887): _call_impl
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(940): trace_module
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(742): trace
-bin/to_jit.py(46): main
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/core/utils.py(160): run_job
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/hydra.py(105): run
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(371): <lambda>
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(211): run_and_report
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(368): _run_hydra
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/main.py(53): decorated_main
-bin/to_jit.py(59): <module>
-RuntimeError: The size of tensor a (511) must match the size of tensor b (512) at non-singleton dimension 2
-
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 388, in sd_inpaint
-    logger.info("Using LaMa Cleaner for removal")
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/baejuyeon/Documents/GitHub/servertest/langchain-cv-main/utils/inference.py", line 359, in lama_cleaner
-    logger.error("LaMa cleaning failed", exc_info=e)
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: Cleaning error: The following operation failed in the TorchScript interpreter.
-Traceback of TorchScript, serialized code (most recent call last):
-  File "code/__torch__/saicinpainting/training/trainers/default.py", line 13, in forward
-    masked_img = torch.mul(img, torch.rsub(mask, 1, 1))
-    input = torch.cat([masked_img, mask], 1)
-    _1 = torch.mul(mask, (_0).forward(input, ))
-         ~~~~~~~~~ <--- HERE
-    _2 = torch.mul(torch.rsub(mask, 1, 1), img)
-    return torch.add(_1, _2, alpha=1)
-
-Traceback of TorchScript, original code (most recent call last):
-/root/home/code/lama/saicinpainting/training/trainers/default.py(84): forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(860): _slow_forward
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/nn/modules/module.py(887): _call_impl
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(940): trace_module
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/torch/jit/_trace.py(742): trace
-bin/to_jit.py(46): main
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/core/utils.py(160): run_job
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/hydra.py(105): run
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(371): <lambda>
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(211): run_and_report
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/_internal/utils.py(368): _run_hydra
-/opt/venv/ocr-detection-detectron2/lib/python3.6/site-packages/hydra/main.py(53): decorated_main
-bin/to_jit.py(59): <module>
-RuntimeError: The size of tensor a (511) must match the size of tensor b (512) at non-singleton dimension 2
-
-2024-12-11 14:50:58,247 - utils.inference - INFO - Selected model type: sd2
-2024-12-11 14:50:58,291 - utils.inference - INFO - Using SD2 for generation
-2024-12-11 14:50:58,297 - utils.inference - INFO - Starting image generation process
-2024-12-11 14:51:42,849 - utils.inference - INFO - Resizing from (512, 512) to (768, 768)
-2024-12-11 14:55:14,378 - utils.inference - INFO - Selected model type: sd2
-2024-12-11 14:55:14,423 - utils.inference - INFO - Using SD2 for generation
-2024-12-11 14:55:14,429 - utils.inference - INFO - Starting image generation process
-2024-12-11 14:55:58,926 - utils.inference - INFO - Resizing from (512, 512) to (768, 768)
-2024-12-11 14:58:19,318 - utils.inference - INFO - Selected model type: sd2
-2024-12-11 14:58:19,364 - utils.inference - INFO - Using SD2 for generation
-2024-12-11 14:58:19,371 - utils.inference - INFO - Starting image generation process
-2024-12-11 14:59:11,799 - utils.inference - INFO - Resizing from (512, 512) to (768, 768)
-2024-12-11 15:01:39,216 - utils.inference - INFO - Selected model type: lama
-2024-12-11 15:01:39,233 - utils.inference - INFO - Using LaMa Cleaner for removal
-2024-12-11 15:01:39,234 - utils.inference - INFO - Starting LaMa cleaning process
-2024-12-11 15:01:39,590 - utils.lama_cleaner_helper - INFO - Model validated successfully: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
-2024-12-11 15:01:39,590 - utils.lama_cleaner_helper - INFO - Loading model from: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
+2024-12-19 09:40:24,646 - utils.agent - INFO - Successfully initialized PromptOptimizationAgent with model: gpt-4o-mini
+2024-12-19 09:43:31,373 - utils.agent - INFO - Successfully initialized PromptOptimizationAgent with model: gpt-4o-mini
+2024-12-19 09:43:51,389 - __main__ - INFO - Received files:
+2024-12-19 09:43:51,390 - __main__ - INFO - Image: KakaoTalk_Photo_2024-12-17-17-11-09.png, Content-Type: image/png
+2024-12-19 09:43:51,390 - __main__ - INFO - Mask: blob, Content-Type: image/png
+2024-12-19 09:43:51,390 - __main__ - INFO - Action type: remove
+2024-12-19 09:43:51,409 - __main__ - INFO - Converting image from RGBA to RGB mode
+2024-12-19 09:43:51,473 - core.inference - INFO - Starting LaMa cleaning process
+2024-12-19 09:43:51,802 - utils.lama_cleaner_helper - INFO - Model validated successfully: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
+2024-12-19 09:43:51,802 - utils.lama_cleaner_helper - INFO - Loading model from: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
+2024-12-19 09:44:04,229 - __main__ - INFO - Received files:
+2024-12-19 09:44:04,230 - __main__ - INFO - Image: blob, Content-Type: image/png
+2024-12-19 09:44:04,230 - __main__ - INFO - Mask: blob, Content-Type: image/png
+2024-12-19 09:44:04,230 - __main__ - INFO - Action type: remove
+2024-12-19 09:44:04,290 - core.inference - INFO - Starting LaMa cleaning process
+2024-12-19 09:44:09,567 - __main__ - INFO - Received files:
+2024-12-19 09:44:09,569 - __main__ - INFO - Image: blob, Content-Type: image/png
+2024-12-19 09:44:09,569 - __main__ - INFO - Mask: blob, Content-Type: image/png
+2024-12-19 09:44:09,569 - __main__ - INFO - Action type: remove
+2024-12-19 09:44:09,630 - core.inference - INFO - Starting LaMa cleaning process
+2024-12-19 09:44:25,455 - __main__ - INFO - Received files:
+2024-12-19 09:44:25,455 - __main__ - INFO - Image: blob, Content-Type: image/png
+2024-12-19 09:44:25,455 - __main__ - INFO - Mask: blob, Content-Type: image/png
+2024-12-19 09:44:25,455 - __main__ - INFO - Action type: edit
+2024-12-19 09:44:27,866 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-19 09:44:27,879 - utils.agent - INFO - Successfully optimized prompt: Replace the middle center area with a large, colorful bird that seamlessly integrates into the bright, soft, vibrant colors and smooth texture of the surrounding environment, maintaining identical lighting conditions and matching color tones for a photorealistic and high-quality composition.
+2024-12-20 12:31:02,706 - utils.agent - INFO - Successfully initialized PromptOptimizationAgent with model: gpt-4o-mini
+2024-12-20 12:32:33,454 - __main__ - INFO - Received files:
+2024-12-20 12:32:33,456 - __main__ - INFO - Image: download.jpeg, Content-Type: image/jpeg
+2024-12-20 12:32:33,456 - __main__ - INFO - Mask: blob, Content-Type: image/png
+2024-12-20 12:32:33,456 - __main__ - INFO - Action type: edit
+2024-12-20 12:32:35,700 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-20 12:32:35,716 - utils.agent - INFO - Successfully optimized prompt: Replace the large central area of the image with a scene inspired by Van Gogh's "Starry Night," ensuring it seamlessly integrates with the surrounding dim, high contrast environment. Maintain matching color tones and detailed textures, while preserving the vibrant colors and high contrast of the surrounding areas. The composition should be ultra high quality with sharp details, correct perspective, and accurate shadows and highlights, ensuring a coherent blend with the overall scene.
+2024-12-20 13:09:19,819 - __main__ - INFO - Received files:
+2024-12-20 13:09:19,820 - __main__ - INFO - Image: blob, Content-Type: image/png
+2024-12-20 13:09:19,820 - __main__ - INFO - Mask: blob, Content-Type: image/png
+2024-12-20 13:09:19,820 - __main__ - INFO - Action type: remove
+2024-12-20 13:09:19,936 - core.inference - INFO - Starting LaMa cleaning process
+2024-12-20 13:09:20,282 - utils.lama_cleaner_helper - INFO - Model validated successfully: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
+2024-12-20 13:09:20,282 - utils.lama_cleaner_helper - INFO - Loading model from: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
+2024-12-20 13:09:39,868 - __main__ - INFO - Received files:
+2024-12-20 13:09:39,868 - __main__ - INFO - Image: blob, Content-Type: image/png
+2024-12-20 13:09:39,868 - __main__ - INFO - Mask: blob, Content-Type: image/png
+2024-12-20 13:09:39,868 - __main__ - INFO - Action type: remove
+2024-12-20 13:09:39,986 - core.inference - INFO - Starting LaMa cleaning process
+2024-12-20 13:12:15,686 - utils.agent - INFO - Successfully initialized PromptOptimizationAgent with model: gpt-4o-mini
+2024-12-20 13:12:28,600 - __main__ - INFO - Received files:
+2024-12-20 13:12:28,601 - __main__ - INFO - Image: download.jpeg, Content-Type: image/jpeg
+2024-12-20 13:12:28,601 - __main__ - INFO - Mask: blob, Content-Type: image/png
+2024-12-20 13:12:28,601 - __main__ - INFO - Action type: edit
+2024-12-20 13:12:31,564 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-20 13:12:31,579 - utils.agent - INFO - Successfully optimized prompt: Replace the large central area of the image with a scene inspired by Van Gogh's "Starry Night," ensuring it is seamlessly integrated with the surrounding dim, high contrast environment. Maintain matching color tones and detailed textures, while emphasizing the vibrant colors of the night sky. Ensure ultra high quality with sharp details, correct perspective, and accurate shadows and highlights to create a photorealistic composition that is coherent with the scene.
+2024-12-20 13:40:24,346 - utils.agent - INFO - Successfully initialized PromptOptimizationAgent with model: gpt-4o-mini
+2024-12-23 16:08:04,075 - utils.agent - INFO - Successfully initialized PromptOptimizationAgent with model: gpt-4o-mini
+2024-12-23 16:08:30,636 - __main__ - INFO - Received files:
+2024-12-23 16:08:30,637 - __main__ - INFO - Image: download.jpeg, Content-Type: image/jpeg
+2024-12-23 16:08:30,637 - __main__ - INFO - Mask: blob, Content-Type: image/png
+2024-12-23 16:08:30,637 - __main__ - INFO - Action type: edit
+2024-12-23 16:08:33,086 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-23 16:08:33,106 - utils.agent - INFO - Successfully optimized prompt: Replace the large area in the middle center of the image with a scene inspired by Van Gogh's "Starry Night," ensuring it seamlessly integrates with the surrounding dim, high contrast environment. Maintain matching color tones with muted colors while incorporating vibrant colors from the surrounding area. The texture should reflect the detailed quality of the original painting, with ultra high quality and sharp details, accurate shadows and highlights, and proper depth integration to create a coherent composition.
+2024-12-23 16:10:10,924 - __main__ - INFO - Received files:
+2024-12-23 16:10:10,924 - __main__ - INFO - Image: blob, Content-Type: image/jpeg
+2024-12-23 16:10:10,924 - __main__ - INFO - Mask: blob, Content-Type: image/png
+2024-12-23 16:10:10,924 - __main__ - INFO - Action type: remove
+2024-12-23 16:10:10,976 - core.inference - INFO - Starting LaMa cleaning process
+2024-12-23 16:10:11,329 - utils.lama_cleaner_helper - INFO - Model validated successfully: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
+2024-12-23 16:10:11,329 - utils.lama_cleaner_helper - INFO - Loading model from: /Users/baejuyeon/.cache/torch/hub/checkpoints/big-lama.pt
+2024-12-23 16:10:49,391 - __main__ - INFO - Received files:
+2024-12-23 16:10:49,391 - __main__ - INFO - Image: blob, Content-Type: image/png
+2024-12-23 16:10:49,391 - __main__ - INFO - Mask: blob, Content-Type: image/png
+2024-12-23 16:10:49,391 - __main__ - INFO - Action type: edit
+2024-12-23 16:10:51,685 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-23 16:10:51,698 - utils.agent - INFO - Successfully optimized prompt: Replace the large central area of the image with a figure of a man with raised arms, transformed into the style of Van Gogh's "Starry Night," ensuring seamless integration with the surrounding dim, high contrast environment featuring vibrant colors and detailed textures. Maintain identical lighting conditions, matching color tones, and consistent texture quality to achieve a photorealistic, high-quality result that is coherent with the scene.
+2024-12-23 20:41:24,649 - __main__ - INFO - Received files:
+2024-12-23 20:41:24,650 - __main__ - INFO - Image: blob, Content-Type: image/png
+2024-12-23 20:41:24,650 - __main__ - INFO - Mask: blob, Content-Type: image/png
+2024-12-23 20:41:24,650 - __main__ - INFO - Action type: edit
+2024-12-23 20:41:27,225 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-23 20:41:27,237 - utils.agent - INFO - Successfully optimized prompt: Replace the large central area with Vincent van Gogh's "Starry Night," ensuring the arms are raised, while maintaining the dim, high contrast, and muted colors of the surrounding environment. The integration should be seamless, matching the detailed texture and vibrant colors of the surrounding area, with consistent lighting and color tones for a photorealistic and high-quality result.
+2024-12-23 21:23:33,340 - __main__ - INFO - Received files:
+2024-12-23 21:23:33,342 - __main__ - INFO - Image: 에펠탑.jpg, Content-Type: image/jpeg
+2024-12-23 21:23:33,342 - __main__ - INFO - Mask: blob, Content-Type: image/png
+2024-12-23 21:23:33,342 - __main__ - INFO - Action type: edit
+2024-12-23 21:23:35,811 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-23 21:23:35,821 - utils.agent - INFO - Successfully optimized prompt: Replace the medium-sized area in the middle center of the image with the Leaning Tower of Pisa, ensuring it seamlessly integrates with the surrounding bright, soft, muted colors and detailed texture, maintaining identical lighting conditions and a matching color tone for a photorealistic, high-quality result.
