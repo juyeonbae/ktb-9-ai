@@ -54,6 +54,32 @@ graph TB
     ImgProc --> Processing
 ```
 
+
+```mermaid
+sequenceDiagram
+    actor User
+    participant API
+    participant Processor
+    participant Model
+    participant QualityManager
+    User->>API: 이미지 업로드
+    API->>Processor: 처리 요청
+    Processor->>QualityManager: 품질 체크
+    QualityManager-->>Processor: 품질 스코어
+    
+    alt 품질 개선 필요
+        Processor->>Model: 이미지 개선
+        Model-->>Processor: 개선된 이미지
+    end
+    
+    Processor->>Model: 모델 추론
+    Model-->>Processor: 처리 결과
+    Processor->>QualityManager: 후처리
+    QualityManager-->>Processor: 최종 결과
+    Processor-->>API: 응답
+    API-->>User: 결과 전달
+```
+
 ## Build 방법
 
 ### 가상환경 생성 및 활성화
