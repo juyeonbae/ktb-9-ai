@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 
 const ImageMaskEditor = () => {
   // State 관리
   const [image, setImage] = useState(null);
-  const [prompt, setPrompt] = useState('');
+  const [prompt, setPrompt] = useState("");
   const [isDrawing, setIsDrawing] = useState(false);
-  const [selectedTool, setSelectedTool] = useState('brush');
+  const [selectedTool, setSelectedTool] = useState("brush");
   const [brushSize, setBrushSize] = useState(20);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -19,8 +19,8 @@ const ImageMaskEditor = () => {
   const displayCanvasRef = useRef(null);
 
   // State 관리 부분에 아래 두 state 추가
-const [startPos, setStartPos] = useState({ x: 0, y: 0 });
-const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
+  const [startPos, setStartPos] = useState({ x: 0, y: 0 });
+  const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
 
   // 이미지 로드 및 초기 설정
   useEffect(() => {
@@ -34,32 +34,38 @@ const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
           return;
         }
         const displayCanvas = displayCanvasRef.current;
-        
+
         // 캔버스 크기 설정
         canvas.width = img.width;
         canvas.height = img.height;
         maskCanvas.width = img.width;
         maskCanvas.height = img.height;
-        
+
         // 화면에 맞게 스케일 조정
         const maxWidth = window.innerWidth * 0.8;
         const maxHeight = window.innerHeight * 0.8;
         const scale = Math.min(maxWidth / img.width, maxHeight / img.height);
         setScale(scale);
-        
+
         displayCanvas.width = img.width * scale;
         displayCanvas.height = img.height * scale;
-        
+
         // 초기 이미지 그리기
-        const ctx = canvas.getContext('2d');
-        const displayCtx = displayCanvas.getContext('2d');
-        const maskCtx = maskCanvas.getContext('2d');
-        
+        const ctx = canvas.getContext("2d");
+        const displayCtx = displayCanvas.getContext("2d");
+        const maskCtx = maskCanvas.getContext("2d");
+
         ctx.drawImage(img, 0, 0);
-        displayCtx.drawImage(img, 0, 0, displayCanvas.width, displayCanvas.height);
-        
+        displayCtx.drawImage(
+          img,
+          0,
+          0,
+          displayCanvas.width,
+          displayCanvas.height
+        );
+
         // 마스크 초기화
-        maskCtx.fillStyle = 'black';
+        maskCtx.fillStyle = "black";
         maskCtx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
 
         // 히스토리 초기화
@@ -78,23 +84,23 @@ const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
     const rect = displayCanvas.getBoundingClientRect();
     return {
       x: (e.clientX - rect.left) / scale,
-      y: (e.clientY - rect.top) / scale
+      y: (e.clientY - rect.top) / scale,
     };
   };
 
   const drawBrush = (x, y) => {
     const maskCanvas = maskCanvasRef.current;
     const displayCanvas = displayCanvasRef.current;
-    const maskCtx = maskCanvas.getContext('2d');
-    const displayCtx = displayCanvas.getContext('2d');
+    const maskCtx = maskCanvas.getContext("2d");
+    const displayCtx = displayCanvas.getContext("2d");
     const actualBrushSize = brushSize / scale;
 
-    maskCtx.fillStyle = 'white';
+    maskCtx.fillStyle = "white";
     maskCtx.beginPath();
     maskCtx.arc(x, y, actualBrushSize / 2, 0, Math.PI * 2);
     maskCtx.fill();
 
-    displayCtx.fillStyle = 'rgba(255, 0, 0, 0.3)';
+    displayCtx.fillStyle = "rgba(255, 0, 0, 0.3)";
     displayCtx.beginPath();
     displayCtx.arc(x * scale, y * scale, brushSize / 2, 0, Math.PI * 2);
     displayCtx.fill();
@@ -102,31 +108,32 @@ const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
 
   const drawRectangle = (startPos, currentPos) => {
     const displayCanvas = displayCanvasRef.current;
-    const displayCtx = displayCanvas.getContext('2d');
-  
+    const displayCtx = displayCanvas.getContext("2d");
+
     // 원본 이미지 복원
-    displayCtx.drawImage(canvasRef.current, 0, 0, displayCanvas.width, displayCanvas.height);
-  
+    displayCtx.drawImage(
+      canvasRef.current,
+      0,
+      0,
+      displayCanvas.width,
+      displayCanvas.height
+    );
+
     // 사각형 그리기
-    displayCtx.fillStyle = 'rgba(255, 0, 0, 0.3)';
+    displayCtx.fillStyle = "rgba(255, 0, 0, 0.3)";
     const x = Math.min(startPos.x, currentPos.x);
     const y = Math.min(startPos.y, currentPos.y);
     const width = Math.abs(currentPos.x - startPos.x);
     const height = Math.abs(currentPos.y - startPos.y);
-    
-    displayCtx.fillRect(
-      x * scale,
-      y * scale,
-      width * scale,
-      height * scale
-    );
+
+    displayCtx.fillRect(x * scale, y * scale, width * scale, height * scale);
   };
 
   // 마스크 그리기 이벤트 핸들러
   const startDrawing = (e) => {
     setIsDrawing(true);
     const pos = getScaledCoordinates(e);
-    if (selectedTool === 'brush') {
+    if (selectedTool === "brush") {
       drawBrush(pos.x, pos.y);
     } else {
       setStartPos(pos);
@@ -135,22 +142,22 @@ const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
 
   const draw = (e) => {
     if (!isDrawing) return;
-    
+
     const pos = getScaledCoordinates(e);
-    setCurrentPos(pos);  // currentPos 업데이트
-    
-    if (selectedTool === 'brush') {
+    setCurrentPos(pos); // currentPos 업데이트
+
+    if (selectedTool === "brush") {
       drawBrush(pos.x, pos.y);
     } else {
       drawRectangle(startPos, pos);
     }
   };
   const stopDrawing = () => {
-    if (isDrawing && selectedTool === 'rectangle') {
+    if (isDrawing && selectedTool === "rectangle") {
       // 마스크에 최종 사각형 그리기
       const maskCanvas = maskCanvasRef.current;
-      const maskCtx = maskCanvas.getContext('2d');
-      maskCtx.fillStyle = 'white';
+      const maskCtx = maskCanvas.getContext("2d");
+      maskCtx.fillStyle = "white";
       const width = Math.abs(currentPos.x - startPos.x);
       const height = Math.abs(currentPos.y - startPos.y);
       maskCtx.fillRect(
@@ -165,65 +172,64 @@ const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
 
   const handleEditImage = async (action) => {
     if (!image) {
-      setError('Please select an image');
+      setError("Please select an image");
       return;
     }
-  
-    if (action === 'edit' && (!prompt || prompt.trim().length === 0)) {
-      setError('Prompt cannot be empty for editing');
+
+    if (action === "edit" && (!prompt || prompt.trim().length === 0)) {
+      setError("Prompt cannot be empty for editing");
       return;
     }
-  
+
     try {
       setIsLoading(true);
       setError(null);
-  
+
       // 먼저 마스크 blob 생성
-      const maskBlob = await new Promise((resolve, reject) => 
-        maskCanvasRef.current.toBlob(blob => {
+      const maskBlob = await new Promise((resolve, reject) =>
+        maskCanvasRef.current.toBlob((blob) => {
           if (blob) resolve(blob);
           else reject(new Error("Failed to create mask blob"));
-        }, 'image/png')
+        }, "image/png")
       );
-      
+
       if (!maskBlob || maskBlob.size === 0) {
         throw new Error("Mask blob is empty or not created properly.");
       }
-  
+
       const formData = new FormData();
-      formData.append('image', image);
-      formData.append('type', action);
-      formData.append('mask', maskBlob);
-      
-      if (action === 'edit') {
-        formData.append('prompt', prompt.trim());
+      formData.append("image", image);
+      formData.append("type", action);
+      formData.append("mask", maskBlob);
+
+      if (action === "edit") {
+        formData.append("prompt", prompt.trim());
       }
-  
+
       // 디버깅을 위한 로그
-      console.log('Image type:', typeof image, image instanceof File);
-      console.log('Image object:', image);
-      console.log('Mask blob type:', typeof maskBlob);
+      console.log("Image type:", typeof image, image instanceof File);
+      console.log("Image object:", image);
+      console.log("Mask blob type:", typeof maskBlob);
       console.log("Form Data:");
       formData.forEach((value, key) => console.log(`${key}:`, value));
-  
-      const response = await fetch('http://localhost:8000/api/edit-image', {
-        method: 'POST',
-        body: formData
+
+      const response = await fetch("http://localhost:5002/api/edit-image", {
+        method: "POST",
+        body: formData,
       });
-  
+
       if (!response.ok) {
         const errorData = await response.text();
         throw new Error(`Failed to edit image: ${errorData}`);
       }
-  
+
       const result = await response.blob();
       const imageUrl = URL.createObjectURL(result);
-      setImageHistory(prev => [...prev.slice(0, currentIndex + 1), imageUrl]);
-      setCurrentIndex(prev => prev + 1);
+      setImageHistory((prev) => [...prev.slice(0, currentIndex + 1), imageUrl]);
+      setCurrentIndex((prev) => prev + 1);
       setImage(result);
-  
     } catch (error) {
-      console.error('Error in handleEditImage:', error);
+      console.error("Error in handleEditImage:", error);
       setError(error.message);
     } finally {
       setIsLoading(false);
@@ -241,7 +247,7 @@ const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
           onChange={(e) => {
             if (e.target.files?.[0]) {
               setImage(e.target.files[0]);
-              setPrompt('');
+              setPrompt("");
               setImageHistory([]);
               setCurrentIndex(0);
               setError(null);
@@ -249,7 +255,7 @@ const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
           }}
           className="p-2 border rounded"
         />
-        
+
         {/* 프롬프트 입력 */}
         <input
           type="text"
@@ -264,28 +270,28 @@ const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
       <div className="flex gap-4 items-center mb-4">
         <div className="flex gap-2">
           <button
-            onClick={() => setSelectedTool('brush')}
+            onClick={() => setSelectedTool("brush")}
             className={`px-3 py-1 rounded ${
-              selectedTool === 'brush'
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-200 hover:bg-gray-300'
+              selectedTool === "brush"
+                ? "bg-blue-500 text-white"
+                : "bg-gray-200 hover:bg-gray-300"
             }`}
           >
             Brush
           </button>
           <button
-            onClick={() => setSelectedTool('rectangle')}
+            onClick={() => setSelectedTool("rectangle")}
             className={`px-3 py-1 rounded ${
-              selectedTool === 'rectangle'
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-200 hover:bg-gray-300'
+              selectedTool === "rectangle"
+                ? "bg-blue-500 text-white"
+                : "bg-gray-200 hover:bg-gray-300"
             }`}
           >
             Rectangle
           </button>
         </div>
 
-        {selectedTool === 'brush' && (
+        {selectedTool === "brush" && (
           <div className="flex items-center gap-2">
             <span>Brush Size:</span>
             <input
@@ -301,9 +307,7 @@ const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
       </div>
 
       {/* 에러 메시지 */}
-      {error && (
-        <div className="text-red-500 mb-4">{error}</div>
-      )}
+      {error && <div className="text-red-500 mb-4">{error}</div>}
 
       {/* 캔버스 */}
       <div className="relative border border-gray-300 rounded">
@@ -323,23 +327,23 @@ const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
       <div className="flex gap-4">
         {/* Remove/Edit 버튼 */}
         <button
-          onClick={() => handleEditImage('remove')}
+          onClick={() => handleEditImage("remove")}
           disabled={!image || isLoading}
           className={`px-4 py-2 rounded ${
             image && !isLoading
-              ? 'bg-red-500 text-white hover:bg-red-600'
-              : 'bg-gray-300 text-gray-500'
+              ? "bg-red-500 text-white hover:bg-red-600"
+              : "bg-gray-300 text-gray-500"
           }`}
         >
           Remove Object
         </button>
         <button
-          onClick={() => handleEditImage('edit')}
+          onClick={() => handleEditImage("edit")}
           disabled={!image || isLoading || !prompt.trim()}
           className={`px-4 py-2 rounded ${
             image && !isLoading && prompt.trim()
-              ? 'bg-blue-500 text-white hover:bg-blue-600'
-              : 'bg-gray-300 text-gray-500'
+              ? "bg-blue-500 text-white hover:bg-blue-600"
+              : "bg-gray-300 text-gray-500"
           }`}
         >
           Edit Image
@@ -349,10 +353,10 @@ const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
         <button
           onClick={() => {
             if (currentIndex > 0) {
-              setCurrentIndex(prev => prev - 1);
+              setCurrentIndex((prev) => prev - 1);
               const img = new Image();
               img.onload = async () => {
-                const blob = await fetch(img.src).then(r => r.blob());
+                const blob = await fetch(img.src).then((r) => r.blob());
                 setImage(blob);
               };
               img.src = imageHistory[currentIndex - 1];
@@ -361,8 +365,8 @@ const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
           disabled={currentIndex === 0}
           className={`px-4 py-2 rounded ${
             currentIndex > 0
-              ? 'bg-gray-500 text-white hover:bg-gray-600'
-              : 'bg-gray-300 text-gray-500'
+              ? "bg-gray-500 text-white hover:bg-gray-600"
+              : "bg-gray-300 text-gray-500"
           }`}
         >
           Previous
@@ -370,10 +374,10 @@ const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
         <button
           onClick={() => {
             if (currentIndex < imageHistory.length - 1) {
-              setCurrentIndex(prev => prev + 1);
+              setCurrentIndex((prev) => prev + 1);
               const img = new Image();
               img.onload = async () => {
-                const blob = await fetch(img.src).then(r => r.blob());
+                const blob = await fetch(img.src).then((r) => r.blob());
                 setImage(blob);
               };
               img.src = imageHistory[currentIndex + 1];
@@ -382,8 +386,8 @@ const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
           disabled={currentIndex >= imageHistory.length - 1}
           className={`px-4 py-2 rounded ${
             currentIndex < imageHistory.length - 1
-              ? 'bg-gray-500 text-white hover:bg-gray-600'
-              : 'bg-gray-300 text-gray-500'
+              ? "bg-gray-500 text-white hover:bg-gray-600"
+              : "bg-gray-300 text-gray-500"
           }`}
         >
           Next
@@ -395,7 +399,7 @@ const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
               setImageHistory([imageHistory[0]]);
               const img = new Image();
               img.onload = async () => {
-                const blob = await fetch(img.src).then(r => r.blob());
+                const blob = await fetch(img.src).then((r) => r.blob());
                 setImage(blob);
               };
               img.src = imageHistory[0];
@@ -404,8 +408,8 @@ const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
           disabled={imageHistory.length <= 1}
           className={`px-4 py-2 rounded ${
             imageHistory.length > 1
-              ? 'bg-yellow-500 text-white hover:bg-yellow-600'
-              : 'bg-gray-300 text-gray-500'
+              ? "bg-yellow-500 text-white hover:bg-yellow-600"
+              : "bg-gray-300 text-gray-500"
           }`}
         >
           Reset

@@ -1,108 +1,57 @@
 ## 아키텍처
 ```mermaid
-flowchart TB
-    subgraph Frontend
-        Client[Web Client]
+graph TB
+    subgraph Frontend["Frontend (React)"]
+        UI[ImageMaskEditor.jsx]
+        UI --> |"HTTP Requests"| API
+        UI --> |"Canvas Operations"| Canvas[Canvas Management]
+        UI --> |"State Management"| State[Image State]
+        
+        subgraph Canvas
+            Draw[Drawing Tools]
+            Mask[Mask Generation]
+            History[Edit History]
+        end
+        
+        subgraph State
+            ImgState[Image States]
+            MaskState[Mask States]
+            PromptState[Prompt Management]
+        end
     end
 
-    subgraph Backend
-        API[FastAPI Server]
-        Agent[LLM Agent]
-        Models[AI Models]
-        Storage[Image Storage]
+    subgraph Backend["Backend (FastAPI)"]
+        API["/api/edit-image Endpoint"] 
+        API --> Pipeline
+        API --> ErrorHandle[Error Handling]
+        
+        subgraph Pipeline["Image Processing Pipeline"]
+            Inference[ImageEditPipeline]
+            Inference --> |"Object Removal"| Lama[LaMa Cleaner]
+            Inference --> |"Object Generation"| SD[Stable Diffusion]
+            Inference --> PA[Prompt Agent]
+        end
     end
 
-    subgraph ExternalServices
-        TritonServer[Triton Inference Server]
-        TranslationService[Translation Service]
+    subgraph Core["Core Processing"]
+        ImgProc[ImageProcessor]
+        QualityMgr[ImageQualityManager]
+        ModelSetup[Model Setup]
+        
+        ImgProc --> QualityMgr
+        ImgProc --> |"Style Analysis"| Style[Image Style Analysis]
+        ModelSetup --> |"Load Models"| Models[AI Models]
+        
+        subgraph Processing["Image Processing"]
+            Preprocess[Preprocessing]
+            Enhance[Enhancement]
+            Blend[Image Blending]
+            Resize[Resizing]
+        end
     end
-
-    Client -->|HTTP Requests| API
-    API -->|Process Requests| Agent
-    Agent -->|Model Inference| Models
-    API -->|Image Processing| TritonServer
-    Agent -->|Text Translation| TranslationService
-    Models -->|Save Results| Storage
-    Storage -->|Return Results| API
-    API -->|HTTP Responses| Client
-```
-
-```mermaid
-classDiagram
-    class FastAPIApplication {
-        +edit_image()
-        +health_check()
-    }
-
-    class ImageEditAgent {
-        -llm: OpenAI
-        -memory: ConversationBufferMemory
-        -tools: List[Tool]
-        -agent: ZeroShotAgent
-        +process_request()
-        -_create_tools()
-        -_create_agent()
-        -_analyze_image()
-        -_enhance_prompt()
-        -_plan_edits()
-    }
-
-    class ImageStateManager {
-        -state: Dict
-        +backward_inference_image()
-        +forward_inference_image()
-        +reset_inference_image()
-        +reset_text()
-        +reset_coord()
-        +get_current_image()
-        +add_image()
-        +get_state()
-    }
-
-    class ImageQualityManager {
-        -min_resolution: int
-        -max_resolution: int
-        -quality_threshold: float
-        +check_image_quality()
-        +enhance_image()
-        +resize_if_needed()
-        +process_image()
-    }
-
-    class PromptProcessor {
-        -translation_manager: TranslationManager
-        -action_map: Dict
-        -object_map: Dict
-        -object_details: Dict
-        +process()
-        +process_generation_prompt()
-        -_enhance_prompt()
-    }
-
-    class ModelSetup {
-        +get_triton_client()
-        +get_sd_inpaint()
-        +get_lama_cleaner()
-        +get_instruct_pix2pix()
-    }
-
-    class Utils {
-        +save_uploaded_image()
-        +save_uploaded_file()
-        +save_dataframe()
-        +resize_image()
-        +plot_bboxes()
-        +combine_masks()
-    }
-
-    FastAPIApplication --> ImageEditAgent
-    FastAPIApplication --> ImageStateManager
-    FastAPIApplication --> ImageQualityManager
-    ImageEditAgent --> PromptProcessor
-    ImageEditAgent --> ImageQualityManager
-    FastAPIApplication --> ModelSetup
-    FastAPIApplication --> Utils
-    PromptProcessor --> TranslationManager
+    
+    Pipeline --> ImgProc
+    ImgProc --> Processing
 ```
 
 ## Build 방법

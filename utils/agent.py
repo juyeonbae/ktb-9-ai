@@ -4,7 +4,6 @@ from PIL import Image
 import numpy as np
 import cv2
 from typing import Optional, Dict, Any
-from dotenv import load_dotenv
 import os
 import logging
 
@@ -21,9 +20,7 @@ class PromptOptimizationAgent:
             model_name: 사용할 OpenAI 모델 이름 (기본값: gpt-4o-mini)
             temperature: 생성 다양성 조절 (0에 가까울수록 결정적)
         """
-        load_dotenv()
-        
-        api_key = os.getenv("OPENAI_API_KEY")
+        api_key = os.environ.get("OPENAI_API_KEY")
         if not api_key:
             raise ValueError(
                 "OpenAI API key not found. Please set OPENAI_API_KEY in .env file"
@@ -43,20 +40,28 @@ class PromptOptimizationAgent:
     def _analyze_image_style(self, image: Image.Image) -> Dict[str, Any]:
         """이미지의 스타일 특성을 분석합니다."""
         try:
+            # PIL Image를 RGB로 변환
+            if image.mode != 'RGB':
+                image = image.convert('RGB')
+            
             img_array = np.array(image)
             
-            # 조명 분석
+            # 채널 수 확인 및 처리
+            if len(img_array.shape) == 2:  # 흑백 이미지
+                img_array = cv2.cvtColor(img_array, cv2.COLOR_GRAY2RGB)
+            elif len(img_array.shape) == 3 and img_array.shape[2] == 4:  # RGBA 이미지
+                img_array = img_array[:, :, :3]
+                
+            # 이후 처리
             gray = cv2.cvtColor(img_array, cv2.COLOR_RGB2GRAY)
             brightness = np.mean(gray)
             contrast = np.std(gray)
             
-            # 색상 분석
             img_hsv = cv2.cvtColor(img_array, cv2.COLOR_RGB2HSV)
             hist_hue = cv2.calcHist([img_hsv], [0], None, [180], [0,180])
             dominant_hue = np.argmax(hist_hue)
             saturation = np.mean(img_hsv[:, :, 1])
             
-            # 텍스처 분석
             texture_features = cv2.Laplacian(gray, cv2.CV_64F).var()
             
             return {

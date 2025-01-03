@@ -169,7 +169,13 @@ class ImageEditPipeline:
         try:
             with self._cuda_memory_manager():
                 # 마스크 영역 분석
+                if mask.mode not in ['L', 'RGB']:
+                    mask = mask.convert('L')  # 그레이스케일로 변환
+                
                 mask_np = np.array(mask)
+                # 임계값 적용하여 이진화
+                mask_np = (mask_np > 127).astype(np.uint8) * 255
+                
                 y_indices, x_indices = np.nonzero(mask_np)
                 
                 if len(y_indices) == 0:
@@ -197,6 +203,12 @@ class ImageEditPipeline:
                 target_size = (512, 512)
                 resized_image = cropped_image.resize(target_size, Image.Resampling.LANCZOS)
                 resized_mask = cropped_mask.resize(target_size, Image.Resampling.NEAREST)
+                # 이미지와 마스크 모두 RGB로 변환 확인
+                if resized_image.mode != 'RGB':
+                    resized_image = resized_image.convert('RGB')
+                if resized_mask.mode != 'RGB':
+                    # 마스크를 RGB로 변환 (흑백 값을 각 채널에 복제)
+                    resized_mask = resized_mask.convert('RGB')
                 
                 # 프롬프트 최적화 및 모델 실행
                 optimized_prompt = self.prompt_agent.optimize_prompt(prompt, resized_image, resized_mask)
