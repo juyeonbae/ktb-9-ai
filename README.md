@@ -11,12 +11,19 @@ graph TB
             Draw[Drawing Tools]
             Mask[Mask Generation]
             History[Edit History]
+            BrushTool[Brush Tool]
+            RectTool[Rectangle Tool]
+            Draw --> BrushTool
+            Draw --> RectTool
         end
         
         subgraph State
             ImgState[Image States]
             MaskState[Mask States]
             PromptState[Prompt Management]
+            ImageStateManager[ImageStateManager]
+            ImageStateManager --> ImgState
+            ImageStateManager --> MaskState
         end
     end
 
@@ -29,24 +36,27 @@ graph TB
             Inference[ImageEditPipeline]
             Inference --> |"Object Removal"| Lama[LaMa Cleaner]
             Inference --> |"Object Generation"| SD[Stable Diffusion]
-            Inference --> PA[Prompt Agent]
+            Inference --> PA[PromptOptimizationAgent]
+            PA --> |"Style Analysis"| StyleAnalysis[Image Style Analysis]
         end
     end
 
     subgraph Core["Core Processing"]
         ImgProc[ImageProcessor]
         QualityMgr[ImageQualityManager]
-        ModelSetup[Model Setup]
+        DeviceUtils[Device Utils]
         
         ImgProc --> QualityMgr
-        ImgProc --> |"Style Analysis"| Style[Image Style Analysis]
+        ModelSetup[Model Setup]
         ModelSetup --> |"Load Models"| Models[AI Models]
+        ModelSetup --> DeviceUtils
         
         subgraph Processing["Image Processing"]
             Preprocess[Preprocessing]
             Enhance[Enhancement]
             Blend[Image Blending]
             Resize[Resizing]
+            MemoryMgr[CUDA Memory Manager]
         end
     end
     
